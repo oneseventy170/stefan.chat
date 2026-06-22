@@ -228,7 +228,7 @@ html,body{margin:0;background:var(--bg);}body{transition:background .35s ease;}
 <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0f0f0f"/><text x="34" y="66" font-family="Archivo, sans-serif" font-size="46" font-weight="700" fill="#fff">S</text><circle cx="66" cy="58" r="7" fill="#15924F"/></svg></template></x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { theme: 'light' };
+  state = { theme: 'dark' };
   constructor(props){ super(props); this.bandRef = React.createRef(); this.n1 = React.createRef(); this.n2 = React.createRef(); }
   animateCount(el, target){
     if(!el) return;
@@ -243,8 +243,8 @@ class Component extends DCLogic {
     requestAnimationFrame(step);
   }
   componentDidMount() {
-    var t = 'light';
-    try { t = localStorage.getItem('sr-theme') || 'light'; } catch (e) {}
+    var t = 'dark';
+    try { t = localStorage.getItem('sr-theme') || 'dark'; } catch (e) {}
     document.documentElement.setAttribute('data-theme', t);
     this.setState({ theme: t });
     (function(){ var u='hello', d='stefan.chat', m=document.getElementById('sr-mail'); if(m){ m.href='mailto:'+u+'@'+d; m.textContent=u+'@'+d; } })();
