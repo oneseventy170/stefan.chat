@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="icon" href="assets/favicon/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Saol Text';src:url('assets/fonts/SaolText-Light.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Saol Text';src:url('assets/fonts/SaolText-LightItalic.otf') format('opentype');font-weight:400;font-style:italic;font-display:swap;}
+@font-face{font-family:'Saol Text';src:url('assets/fonts/SaolText-Medium.otf') format('opentype');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'Saol Text';src:url('assets/fonts/SaolText-Bold.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap;}
+@font-face{font-family:'Du Nord';src:url('assets/fonts/DuNord-Regular.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Du Nord';src:url('assets/fonts/DuNord-Medium.otf') format('opentype');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'Du Nord';src:url('assets/fonts/DuNord-Medium.otf') format('opentype');font-weight:600;font-style:normal;font-display:swap;}
+@font-face{font-family:'Du Nord';src:url('assets/fonts/DuNord-Medium.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap;}
+*{box-sizing:border-box;}
+:root{--bg:#FAFAF7;--surface:#ffffff;--surface-2:#f1f1ec;--ink:#0f0f0f;--ink-2:#42433f;--ink-3:#5a5a52;--muted:#86857c;--line:#0f0f0f;--line-soft:rgba(15,15,15,.16);--accent:#15924F;--media-bg:#e7e7e1;--nav-bg:rgba(250,250,247,.9);--band-bg:#0f0f0f;--band-ink:#ffffff;--band-ink-2:rgba(255,255,255,.72);--band-line:rgba(255,255,255,.14);--band-accent:#4ADE80;--band-muted:rgba(255,255,255,.5);}
+:root[data-theme="dark"]{--bg:#0c0d10;--surface:#15171c;--surface-2:#15171c;--ink:#EDEEF2;--ink-2:rgba(237,238,242,.72);--ink-3:rgba(237,238,242,.62);--muted:rgba(237,238,242,.5);--line:rgba(237,238,242,.3);--line-soft:rgba(237,238,242,.16);--accent:#4ADE80;--media-bg:#1b1d24;--nav-bg:rgba(12,13,16,.88);--band-bg:#FAFAF7;--band-ink:#0f0f0f;--band-ink-2:rgba(15,15,15,.7);--band-line:rgba(15,15,15,.14);--band-accent:#15924F;--band-muted:rgba(15,15,15,.5);}
+html,body{margin:0;background:var(--bg);}body{transition:background .35s ease;}
+@keyframes srblink{0%,48%{opacity:1}49%,100%{opacity:0}}
+.as-title{color:#fff;}
+:root[data-theme="dark"] .as-title{color:#000;}
+@media (max-width:768px){
+  div[style*="grid-template-columns"]{grid-template-columns:1fr !important;}
+  div[style*="max-width:1120px"]{padding-left:22px !important; padding-right:22px !important;}
+  h1{font-size:40px !important; line-height:1.06 !important;}
+  h2{font-size:30px !important;}
+  h3{font-size:24px !important;}
+  h4{font-size:20px !important;}
+  [style*="66px/0.95"]{font-size:42px !important;}
+  [style*="116px/0.8"]{font-size:64px !important;}
+  [style*="52px/1 "]{font-size:30px !important;}
+  [style*="76px/1 "]{font-size:42px !important;}
+  div[style*="padding:48px; display:flex"]{padding:20px !important;}
+  div[style*="padding:32px; display:flex"]{padding:16px !important;}
+  div[style*="padding:36px 48px"]{flex-wrap:wrap !important; gap:8px 18px !important; justify-content:flex-start !important;}
+  a[style*="padding:36px 40px"]{flex-direction:column !important; align-items:flex-start !important; gap:14px !important;}
+  .pcard .preveal{opacity:1 !important;}
+  .pcard .ptag{opacity:1 !important; transform:none !important;}
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+</helmet>
+
+<div style="background:var(--bg); color:var(--ink); font-family:'Du Nord',sans-serif; min-height:100vh;">
+
+  <!-- nav -->
+  <div id="srnav" style="position:sticky; top:0; z-index:20; background:var(--nav-bg); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); transition:transform .4s ease;">
+    <div style="max-width:1120px; margin:0 auto; padding:22px 48px; display:flex; justify-content:space-between; align-items:center;">
+      <a href="index.html" style="color:inherit; text-decoration:none; font:600 14px/1 'JetBrains Mono',monospace; letter-spacing:.02em;">stefan.chat<span style="display:inline-block; width:8px; height:15px; background:var(--accent); margin-left:3px; vertical-align:-2px; animation:srblink 1.1s steps(1) infinite;"></span></a>
+      <div style="display:flex; gap:26px; align-items:center; font:600 12px/1 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--muted);">
+        <a href="index.html#work" style="color:inherit; text-decoration:none;">← All work</a>
+        <button onClick="{{ toggleTheme }}" title="Toggle theme" style="cursor:pointer; display:inline-flex; align-items:center; gap:8px; background:transparent; border:0; padding:0;"><span style="display:inline-block; width:38px; height:20px; border:1px solid var(--line); border-radius:999px; position:relative; background:var(--surface-2); transition:background .3s ease;"><span style="position:absolute; top:2px; left:{{ knobLeft }}; width:14px; height:14px; border-radius:50%; background:var(--accent); transition:left .3s ease;"></span></span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- hero -->
+  <div style="max-width:1120px; margin:0 auto; padding:80px 48px 0;">
+    <div style="display:grid; grid-template-columns:1fr 300px; gap:56px; align-items:start; margin-bottom:56px;">
+      <div>
+      <div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:28px;">// case study · 1Password · 2024</div>
+    <h1 style="font:700 64px/1.0 'Du Nord'; letter-spacing:-.03em; margin:0 0 28px; max-width:18ch;">Getting new users set up quickly &amp; confidently</h1>
+    <p style="font:400 22px/1.6 'Du Nord'; color:var(--ink-2); max-width:60ch; margin:0 0 48px;">Helping new users get started with 1Password quickly, with clear guidance and confidence from day one. Two efforts: a guided onboarding experience and a ground-up rebuild of sign-up for individuals and organizations.</p>
+
+      </div>
+      <div style="border:1px solid var(--line);">
+        <div style="padding:22px 24px; border-bottom:1px solid var(--line-soft);"><div style="font:600 11px 'JetBrains Mono',monospace; letter-spacing:.06em; color:var(--muted); margin-bottom:8px;">ROLE</div><div style="font:500 15px 'Du Nord';">Product Designer</div></div>
+        <div style="padding:22px 24px; border-bottom:1px solid var(--line-soft);"><div style="font:600 11px 'JetBrains Mono',monospace; letter-spacing:.06em; color:var(--muted); margin-bottom:8px;">TIMELINE</div><div style="font:500 15px 'Du Nord';">2024</div></div>
+        <div style="padding:22px 24px;"><div style="font:600 11px 'JetBrains Mono',monospace; letter-spacing:.06em; color:var(--muted); margin-bottom:8px;">FOCUS</div><div style="font:500 15px 'Du Nord';">B2C &amp; B2B onboarding</div></div>
+      </div>
+    </div>
+
+    <div style="border:1px solid var(--line); overflow:hidden; background:var(--media-bg); aspect-ratio:16/9; display:none;"><video src="assets/videos/onboarding-header.mp4" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video></div>
+  </div>
+
+  <!-- ================= PART 01, GUIDED SETUP ================= -->
+  <div style="max-width:1120px; margin:0 auto; padding:0 48px;">
+    <div style="margin-top:120px; display:flex; align-items:stretch; flex-wrap:wrap; border:1px solid var(--line); border-bottom:0;">
+      <div style="background:var(--surface); color:var(--accent); display:flex; align-items:center; justify-content:center; padding:0 32px; font:700 46px/1 'Du Nord'; letter-spacing:-.02em; border-right:1px solid var(--line);">01</div>
+      <div style="flex:1; min-width:260px; background:var(--accent); color:#000; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; padding:28px 32px;">
+        <h2 class="as-title" style="font:700 36px/1 'Du Nord'; letter-spacing:-.02em; margin:0;">Guided Setup</h2>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;"><span style="font:600 11px/1 'JetBrains Mono',monospace; color:#fff; background:#000; padding:9px 13px;">73% completion</span><span style="font:600 11px/1 'JetBrains Mono',monospace; color:#fff; background:#000; padding:9px 13px;">45% faster</span></div>
+      </div>
+    </div>
+
+    <div style="border:1px solid var(--line); overflow:hidden; background:var(--media-bg);"><img src="assets/images/projects/guided-setup/Hero.png" alt="Guided Setup" style="width:100%; height:auto; display:block;"></div>
+
+    <div style="display:grid; grid-template-columns:repeat(2,1fr); border:1px solid var(--line); overflow:hidden; margin-top:32px;">
+      <div style="padding:34px 34px; border-right:1px solid var(--line-soft);"><div style="font:600 12px 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); margin-bottom:16px;">Problem</div><p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-2); margin:0;">People signed up but never learned the product, features went unused and onboarding lived nowhere.</p></div>
+      <div style="padding:34px 34px;"><div style="font:600 12px 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); margin-bottom:16px;">Solution</div><p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-2); margin:0;">A step-by-step setup that surfaces the right action at the right moment, for individuals and teams alike.</p></div>
+    </div>
+
+    <!-- Discovery -->
+    <div style="margin-top:104px;">
+      <div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:18px;">// discovery</div>
+      <h3 style="font:700 34px/1.1 'Du Nord'; letter-spacing:-.025em; margin:0 0 36px;">What users told us, and what competitors did well</h3>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+        <div style="border:1px solid var(--line); padding:30px 32px; background:var(--surface);"><div style="font:600 12px 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:#c2410c; margin-bottom:18px;">Customer themes</div><ul style="margin:0; padding-left:18px; font:400 16px/1.9 'Du Nord'; color:var(--ink-2);"><li>Setup feels difficult and intimidating</li><li>"I'm definitely not using this app the right way"</li><li>Advanced features feel hidden or underutilized</li></ul></div>
+        <div style="border:1px solid var(--line); padding:30px 32px; background:var(--surface);"><div style="font:600 12px 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); margin-bottom:18px;">Competitive insights</div><ul style="margin:0; padding-left:18px; font:400 16px/1.9 'Du Nord'; color:var(--ink-2);"><li>Desktop onboarding is more comprehensive and intentional</li><li>Progress indicators help motivate completion</li><li>1Password's onboarding felt fragmented, not holistic</li></ul></div>
+      </div>
+    </div>
+
+    <!-- Design -->
+    <div style="margin-top:104px;">
+      <div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:18px;">// design</div>
+      <h3 style="font:700 34px/1.1 'Du Nord'; letter-spacing:-.025em; margin:0 0 36px;">Designing a guided, goal-oriented setup</h3>
+      <div style="border:1px solid var(--line); overflow:hidden; background:var(--media-bg);"><img src="assets/images/projects/guided-setup/design-hero.svg" alt="" style="width:100%; height:auto; display:block;"></div>
+
+      <h4 style="font:700 24px/1.2 'Du Nord'; margin:64px 0 16px;">Defining essential setup steps</h4>
+      <p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-3); max-width:66ch; margin:0 0 24px;">Through multiple iterations we determined which tasks truly mattered during onboarding, a set aligned across the design team and scoped to give users the context they need to succeed.</p>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; margin-bottom:20px;">
+        <img src="assets/images/projects/guided-setup/image3/A.png" alt="" style="width:460px; max-width:100%; height:auto; display:block;">
+      </div>
+
+      <h4 style="font:700 24px/1.2 'Du Nord'; margin:64px 0 16px;">Keeping users motivated through multi-step setup</h4>
+      <p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-3); max-width:66ch; margin:0 0 24px;">Progress indicators, clear milestones, and positive reinforcement maintain momentum. Users always know where they are, what's left, and can skip optional steps or return later without losing progress.</p>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; justify-content:center; align-items:center;"><img src="assets/images/projects/guided-setup/image4/A.png" alt="" style="width:100%; max-width:100%; height:auto; display:block;"></div>
+
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:20px; margin-bottom:20px;">
+        <img src="assets/images/projects/guided-setup/image5/A.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/guided-setup/image5/B.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/guided-setup/image5/C.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+      </div>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap;">
+        <img src="assets/images/projects/guided-setup/image6/A.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/guided-setup/image6/B.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/guided-setup/image6/C.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+      </div>
+
+      <h4 style="font:700 24px/1.2 'Du Nord'; margin:64px 0 16px;">Expanding to B2B</h4>
+      <p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-3); max-width:66ch; margin:0 0 24px;">Not all organizations want employees completing the same tasks. An admin-controlled setup page lets teams tailor onboarding steps to align with company policies.</p>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; justify-content:center; align-items:center;"><img src="assets/images/projects/guided-setup/image8/A.png" alt="" style="width:100%; max-width:100%; height:auto; display:block;"></div>
+    </div>
+  </div>
+
+  <!-- Impact band P1 -->
+  <div style="background:var(--band-bg); color:var(--band-ink); margin-top:104px; transition:background .35s ease;">
+    <div style="max-width:1120px; margin:0 auto; padding:0 48px;">
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--band-line);">
+        <div style="background:var(--band-bg); padding:40px 40px 48px; transition:background .35s ease;"><div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div><div style="display:flex; align-items:baseline;"><span class="count" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">+21</span><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em; color:var(--band-accent);">%</span></div><div style="font:600 15px 'Du Nord'; color:var(--band-ink); margin:18px 0 6px;">jump in onboarding completion</div><div style="font:400 15px/1.6 'Du Nord'; color:var(--band-ink-2); max-width:42ch;">52% to 73% of users finished onboarding and set up.</div></div>
+        <div style="background:var(--band-bg); padding:40px 40px 48px; transition:background .35s ease;"><div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div><div style="display:flex; align-items:baseline;"><span class="count" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">3</span><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em; color:var(--band-accent);">×</span></div><div style="font:600 15px 'Du Nord'; color:var(--band-ink); margin:18px 0 6px;">to first saved login</div><div style="font:400 15px/1.6 'Du Nord'; color:var(--band-ink-2); max-width:42ch;">Saving a first login used to take 3 sessions, now users get there during their 1st.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PART 02, SIGN UP 2.0 ================= -->
+  <div style="max-width:1120px; margin:0 auto; padding:0 48px;">
+    <div style="margin-top:120px; display:flex; align-items:stretch; flex-wrap:wrap; border:1px solid var(--line); border-bottom:0;">
+      <div style="background:var(--surface); color:var(--accent); display:flex; align-items:center; justify-content:center; padding:0 32px; font:700 46px/1 'Du Nord'; letter-spacing:-.02em; border-right:1px solid var(--line);">02</div>
+      <div style="flex:1; min-width:260px; background:var(--accent); color:#000; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; padding:28px 32px;">
+        <h2 class="as-title" style="font:700 36px/1 'Du Nord'; letter-spacing:-.02em; margin:0;">Sign up 2.0</h2>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;"><span style="font:600 11px/1 'JetBrains Mono',monospace; color:#fff; background:#000; padding:9px 13px;">2.8× faster</span><span style="font:600 11px/1 'JetBrains Mono',monospace; color:#fff; background:#000; padding:9px 13px;">100% preferred</span></div>
+      </div>
+    </div>
+
+    <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; flex-direction:column; gap:40px; align-items:center;">
+      <div id="lottie-1" style="width:100%; max-width:680px;"></div>
+      <div id="lottie-2" style="width:100%; max-width:680px;"></div>
+      <div id="lottie-3" style="width:100%; max-width:680px;"></div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(2,1fr); border:1px solid var(--line); overflow:hidden; margin-top:32px;">
+      <div style="padding:34px 34px; border-right:1px solid var(--line-soft);"><div style="font:600 12px 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); margin-bottom:16px;">Problem</div><p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-2); margin:0;">Years of bolted-on requirements made sign-up long and overwhelming, delaying time to value.</p></div>
+      <div style="padding:34px 34px;"><div style="font:600 12px 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); margin-bottom:16px;">Solution</div><p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-2); margin:0;">A progressive flow that front-loads the essentials and defers the rest, even into setup.</p></div>
+    </div>
+
+    <!-- Discovery -->
+    <div style="margin-top:104px;">
+      <div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:18px;">// discovery</div>
+      <h3 style="font:700 34px/1.1 'Du Nord'; letter-spacing:-.025em; margin:0 0 18px;">Understanding where sign-up breaks down</h3>
+      <p style="font:400 18px/1.65 'Du Nord'; color:var(--ink-2); max-width:66ch; margin:0 0 36px;">We mapped every step in the existing flow and evaluated what truly needed to happen up front versus what could be deferred, even into guided setup.</p>
+
+      <div style="font:600 12px 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:#c2410c; margin-bottom:14px;">Before, the full audit</div>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:32px; display:flex; gap:8px; justify-content:center; align-items:flex-start; flex-wrap:wrap; margin-bottom:24px;">
+        <img src="assets/images/projects/onboarding/Sticky Before/A.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky Before/B.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky Before/C.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky Before/D.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky Before/E.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky Before/F.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky Before/G.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky Before/H.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky Before/I.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky Before/J.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+      </div>
+
+      <div style="font:600 12px 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:#0f8a4a; margin-bottom:14px;">After, streamlined &amp; deferred</div>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:32px; display:flex; gap:8px; justify-content:center; align-items:flex-start; flex-wrap:wrap;">
+        <img src="assets/images/projects/onboarding/Sticky After/A.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky After/B.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky After/C.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky After/D.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky After/E.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky After/F.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky After/G.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky After/H.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky After/I.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/Sticky After/J.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+      </div>
+    </div>
+
+    <!-- Design -->
+    <div style="margin-top:104px;">
+      <div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:18px;">// design</div>
+      <h3 style="font:700 34px/1.1 'Du Nord'; letter-spacing:-.025em; margin:0 0 18px;">A durable, product-led visual system</h3>
+      <p style="font:400 18px/1.65 'Du Nord'; color:var(--ink-2); max-width:66ch; margin:0 0 36px;">Previous attempts mirrored the marketing site and fell out of sync as it evolved. We established a standardized, product-led visual system, more durable, easier to maintain, and refined over time.</p>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; margin-bottom:20px;">
+        <img src="assets/images/projects/onboarding/image1/A.png" alt="" style="width:560px; max-width:100%; height:auto; display:block;">
+      </div>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; justify-content:center; align-items:center; margin-bottom:20px;"><img src="assets/images/projects/onboarding/image2/A.png" alt="" style="width:100%; max-width:100%; height:auto; display:block;"></div>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; margin-bottom:20px;">
+        <img src="assets/images/projects/onboarding/image3/A.png" alt="" style="width:560px; max-width:100%; height:auto; display:block;">
+      </div>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; justify-content:center; align-items:center;"><img src="assets/images/projects/onboarding/image4/A.png" alt="" style="width:100%; max-width:100%; height:auto; display:block;"></div>
+
+      <h4 style="font:700 24px/1.2 'Du Nord'; margin:64px 0 16px;">Native mobile onboarding</h4>
+      <p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-3); max-width:66ch; margin:0 0 24px;">Sign-up previously relied on a shared web experience across platforms. Moving to a fully native mobile flow gave us end-to-end control and a smoother, more intuitive setup tailored to mobile users.</p>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap; margin-bottom:20px;">
+        <img src="assets/images/projects/onboarding/image5/A.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/image5/B.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/image5/C.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+      </div>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap;">
+        <img src="assets/images/projects/onboarding/image6/A.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img src="assets/images/projects/onboarding/image6/B.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+      </div>
+    </div>
+  </div>
+
+  <!-- Impact band P2 -->
+  <div style="background:var(--band-bg); color:var(--band-ink); margin-top:104px; transition:background .35s ease;">
+    <div style="max-width:1120px; margin:0 auto; padding:0 48px;">
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--band-line);">
+        <div style="background:var(--band-bg); padding:40px 40px 48px; transition:background .35s ease;"><div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div><div style="display:flex; align-items:baseline;"><span class="count" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">2.8</span><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em; color:var(--band-accent);">×</span></div><div style="font:600 15px 'Du Nord'; color:var(--band-ink); margin:18px 0 6px;">reduced time to get into the product</div><div style="font:400 15px/1.6 'Du Nord'; color:var(--band-ink-2); max-width:42ch;">Users got into the product faster and began using 1Password with significantly less friction.</div></div>
+        <div style="background:var(--band-bg); padding:40px 40px 48px; transition:background .35s ease;"><div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div><div style="display:flex; align-items:baseline;"><span class="count" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">100</span><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em; color:var(--band-accent);">%</span></div><div style="font:600 15px 'Du Nord'; color:var(--band-ink); margin:18px 0 6px;">reported user satisfaction</div><div style="font:400 15px/1.6 'Du Nord'; color:var(--band-ink-2); max-width:42ch;">A/B testing with B2B customers showed a clear preference, all participants chose the new flow.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- next -->
+  <div style="max-width:1120px; margin:0 auto; padding:0 48px;">
+    <a href="case-helium.dc.html" style="display:flex; justify-content:space-between; align-items:center; text-decoration:none; color:inherit; border:1px solid var(--line); padding:36px 40px; margin:96px 0 0; background:var(--surface); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);">
+      <div><div style="font:600 12px 'JetBrains Mono',monospace; color:var(--muted); letter-spacing:.06em; margin-bottom:10px;">NEXT CASE STUDY →</div><div style="font:700 30px/1.1 'Du Nord'; letter-spacing:-.02em;">Unifying an ecosystem into one platform</div></div>
+      <div style="font:600 14px 'Du Nord'; color:var(--accent); white-space:nowrap; margin-left:24px;">01 / Helium</div>
+    </a>
+  </div>
+
+  <!-- footer -->
+  <div style="border-top:1px solid var(--line); margin-top:96px;">
+    <div style="max-width:1120px; margin:0 auto; padding:36px 48px; display:flex; justify-content:space-between; align-items:center; font:600 13px 'JetBrains Mono',monospace; color:var(--muted);">
+      <a id="sr-mail" href="#" style="color:inherit; text-decoration:none;">Email me</a>
+      <a href="index.html" style="color:inherit; text-decoration:none;">← Back to portfolio</a>
+      <span>©2026 Stefan Rhoades</span>
+    </div>
+  </div>
+
+</div>
+
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0f0f0f"/><text x="34" y="66" font-family="Archivo, sans-serif" font-size="46" font-weight="700" fill="#fff">S</text><circle cx="66" cy="58" r="7" fill="#15924F"/></svg></template></x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { theme: 'light' };
+  componentDidMount() {
+    var t = 'light';
+    try { t = localStorage.getItem('sr-theme') || 'light'; } catch (e) {}
+    document.documentElement.setAttribute('data-theme', t);
+    this.setState({ theme: t });
+    (function(){ var u='hello', d='stefan.chat', m=document.getElementById('sr-mail'); if(m){ m.href='mailto:'+u+'@'+d; m.textContent=u+'@'+d; } })();
+    var lastY = window.scrollY, ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        var nav = document.getElementById('srnav');
+        var y = window.scrollY;
+        if (nav) {
+          if (y > lastY && y > 80) nav.style.transform = 'translateY(-110%)';
+          else nav.style.transform = 'translateY(0)';
+        }
+        lastY = y;
+        ticking = false;
+      });
+    }, { passive: true });
+
+    var tries = 0;
+    var initLottie = function () {
+      if (typeof window.lottie === 'undefined') {
+        if (tries++ < 80) { setTimeout(initLottie, 100); }
+        return;
+      }
+      var defs = [
+        { id: 'lottie-1', path: 'assets/animations/OpenExt.json' },
+        { id: 'lottie-2', path: 'assets/animations/PinExt.json' },
+        { id: 'lottie-3', path: 'assets/animations/fillsave.json' }
+      ];
+      defs.forEach(function (d) {
+        var el = document.getElementById(d.id);
+        if (el && !el.hasChildNodes()) {
+          window.lottie.loadAnimation({ container: el, renderer: 'svg', loop: true, autoplay: true, path: d.path });
+        }
+      });
+    };
+    initLottie();
+
+    var animateNum = function (el) {
+      var finalText = el.getAttribute('data-final') || el.textContent;
+      el.setAttribute('data-final', finalText);
+      var m = finalText.match(/^([^\d]*)([\d.,]+)(.*)$/);
+      if (!m) return;
+      var pre = m[1], numStr = m[2], suf = m[3];
+      var comma = numStr.indexOf(',') >= 0;
+      var dec = (numStr.split('.')[1] || '').length;
+      var target = parseFloat(numStr.replace(/,/g, ''));
+      if (isNaN(target)) return;
+      var fmt = function (v) {
+        var o = dec > 0 ? v.toFixed(dec) : Math.round(v).toString();
+        if (comma) o = Number(o).toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+        return pre + o + suf;
+      };
+      var start = null, dur = 1400;
+      var step = function (ts) {
+        if (start === null) start = ts;
+        var p = Math.min((ts - start) / dur, 1);
+        var e = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(target * e);
+        if (p < 1) requestAnimationFrame(step); else el.textContent = finalText;
+      };
+      el.textContent = fmt(0);
+      requestAnimationFrame(step);
+    };
+    if ('IntersectionObserver' in window) {
+      var io2 = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting) { animateNum(e.target); }
+          else { var f = e.target.getAttribute('data-final'); if (f) e.target.textContent = f.replace(/\d/g, '0'); }
+        });
+      }, { threshold: 0.6 });
+      document.querySelectorAll('.count').forEach(function (el) { io2.observe(el); });
+    }
+  }
+  renderVals() {
+    var self = this;
+    return {
+      knobLeft: this.state.theme === 'dark' ? '20px' : '2px',
+      toggleTheme: function () {
+        var next = self.state.theme === 'dark' ? 'light' : 'dark';
+        try { localStorage.setItem('sr-theme', next); } catch (e) {}
+        document.documentElement.setAttribute('data-theme', next);
+        self.setState({ theme: next });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
