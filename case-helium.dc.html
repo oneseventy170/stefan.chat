@@ -54,9 +54,9 @@ html,body{margin:0;background:var(--bg);}body{transition:background .35s ease;}
   <!-- nav -->
   <div id="srnav" style="position:sticky; top:0; z-index:20; background:var(--nav-bg); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); transition:transform .4s ease;">
     <div style="max-width:1120px; margin:0 auto; padding:22px 48px; display:flex; justify-content:space-between; align-items:center;">
-      <a href="index.html" style="color:inherit; text-decoration:none; font:600 14px/1 'JetBrains Mono',monospace; letter-spacing:.02em;">stefan.chat<span style="display:inline-block; width:8px; height:15px; background:var(--accent); margin-left:3px; vertical-align:-2px; animation:srblink 1.1s steps(1) infinite;"></span></a>
+      <a href="/" style="color:inherit; text-decoration:none; font:600 14px/1 'JetBrains Mono',monospace; letter-spacing:.02em;">stefan.chat<span style="display:inline-block; width:8px; height:15px; background:var(--accent); margin-left:3px; vertical-align:-2px; animation:srblink 1.1s steps(1) infinite;"></span></a>
       <div style="display:flex; gap:26px; align-items:center; font:600 12px/1 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--muted);">
-        <a href="index.html#work" style="color:inherit; text-decoration:none;">← All work</a>
+        <a href="/#work" style="color:inherit; text-decoration:none;">← All work</a>
         <button onClick="{{ toggleTheme }}" title="Toggle theme" style="cursor:pointer; display:inline-flex; align-items:center; gap:8px; background:transparent; border:0; padding:0;"><span style="display:inline-block; width:38px; height:20px; border:1px solid var(--line); border-radius:999px; position:relative; background:var(--surface-2); transition:background .3s ease;"><span style="position:absolute; top:2px; left:{{ knobLeft }}; width:14px; height:14px; border-radius:50%; background:var(--accent); transition:left .3s ease;"></span></span></button>
       </div>
     </div>
@@ -177,7 +177,7 @@ html,body{margin:0;background:var(--bg);}body{transition:background .35s ease;}
   <div style="border-top:1px solid var(--line); margin-top:96px;">
     <div style="max-width:1120px; margin:0 auto; padding:36px 48px; display:flex; justify-content:space-between; align-items:center; font:600 13px 'JetBrains Mono',monospace; color:var(--muted);">
       <a id="sr-mail" href="#" style="color:inherit; text-decoration:none;">Email me</a>
-      <a href="index.html" style="color:inherit; text-decoration:none;">← Back to portfolio</a>
+      <a href="/" style="color:inherit; text-decoration:none;">← Back to portfolio</a>
       <span>©2026 Stefan Rhoades</span>
     </div>
   </div>
@@ -187,10 +187,10 @@ html,body{margin:0;background:var(--bg);}body{transition:background .35s ease;}
 <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0f0f0f"/><text x="34" y="66" font-family="Archivo, sans-serif" font-size="46" font-weight="700" fill="#fff">S</text><circle cx="66" cy="58" r="7" fill="#15924F"/></svg></template></x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { theme: 'light' };
+  state = { theme: 'dark' };
   componentDidMount() {
-    var t = 'light';
-    try { t = localStorage.getItem('sr-theme') || 'light'; } catch (e) {}
+    var t = 'dark';
+    try { t = localStorage.getItem('sr-theme') || 'dark'; } catch (e) {}
     document.documentElement.setAttribute('data-theme', t);
     this.setState({ theme: t });
     (function(){ var u='hello', d='stefan.chat', m=document.getElementById('sr-mail'); if(m){ m.href='mailto:'+u+'@'+d; m.textContent=u+'@'+d; } })();
