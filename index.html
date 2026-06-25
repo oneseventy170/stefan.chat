@@ -193,7 +193,7 @@ a,button,[role="button"]{cursor:pointer;}
         </div>
         <div style="background:var(--band-bg); padding:34px 36px 56px; transition:background .35s ease;">
           <div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div>
-          <div style="display:flex; align-items:baseline;"><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">+</span><span ref="{{ n3 }}" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">9.4</span><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em; color:var(--band-accent);">%</span></div>
+          <div style="display:flex; align-items:baseline;"><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">+</span><span id="n3" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">9.4</span><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em; color:var(--band-accent);">%</span></div>
           <div style="font:500 14px/1.5 'Du Nord'; color:var(--band-ink-2); margin-top:16px; max-width:34ch;">more hotspots deployed. 12,000 deployed in 3 months, post Helium World launch.</div>
         </div>
       </div>
@@ -294,11 +294,11 @@ class Component extends DCLogic {
           if (e.isIntersecting) {
             self2.animateCount(self2.n1.current, 150);
             self2.animateCount(self2.n2.current, 21);
-            self2.animateDecimal(self2.n3.current, 9.4);
+            self2.animateDecimal(document.getElementById('n3'), 9.4);
           } else {
             if (self2.n1.current) self2.n1.current.textContent = '0';
             if (self2.n2.current) self2.n2.current.textContent = '0';
-            if (self2.n3.current) self2.n3.current.textContent = '0';
+            var n3el = document.getElementById('n3'); if (n3el) n3el.textContent = '0';
           }
         });
       }, { threshold: 0.4 });
