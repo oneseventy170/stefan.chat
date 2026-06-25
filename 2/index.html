@@ -3,29 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js" defer></script>
-<script src="./band.js" defer></script>
+<script src="../support.js" defer></script>
+<script src="../band.js" defer></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <title>Getting new users set up quickly &amp; confidently — Stefan Rhoades</title>
 <meta name="description" content="How Stefan Rhoades redesigned 1Password's onboarding to boost completion from 52% to 73% and cut time-to-first-login by 3x.">
-<link rel="icon" href="assets/favicon/favicon-32x32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="assets/favicon/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+<link rel="icon" href="../assets/favicon/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/favicon/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/favicon/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-@font-face{font-family:'Saol Text';src:url('assets/fonts/SaolText-Light.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap;}
-@font-face{font-family:'Saol Text';src:url('assets/fonts/SaolText-LightItalic.otf') format('opentype');font-weight:400;font-style:italic;font-display:swap;}
-@font-face{font-family:'Saol Text';src:url('assets/fonts/SaolText-Medium.otf') format('opentype');font-weight:500;font-style:normal;font-display:swap;}
-@font-face{font-family:'Saol Text';src:url('assets/fonts/SaolText-Bold.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap;}
-@font-face{font-family:'Du Nord';src:url('assets/fonts/DuNord-Regular.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap;}
-@font-face{font-family:'Du Nord';src:url('assets/fonts/DuNord-Medium.otf') format('opentype');font-weight:500;font-style:normal;font-display:swap;}
-@font-face{font-family:'Du Nord';src:url('assets/fonts/DuNord-Medium.otf') format('opentype');font-weight:600;font-style:normal;font-display:swap;}
-@font-face{font-family:'Du Nord';src:url('assets/fonts/DuNord-Medium.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap;}
+@font-face{font-family:'Saol Text';src:url('../assets/fonts/SaolText-Light.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Saol Text';src:url('../assets/fonts/SaolText-LightItalic.otf') format('opentype');font-weight:400;font-style:italic;font-display:swap;}
+@font-face{font-family:'Saol Text';src:url('../assets/fonts/SaolText-Medium.otf') format('opentype');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'Saol Text';src:url('../assets/fonts/SaolText-Bold.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap;}
+@font-face{font-family:'Du Nord';src:url('../assets/fonts/DuNord-Regular.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Du Nord';src:url('../assets/fonts/DuNord-Medium.otf') format('opentype');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'Du Nord';src:url('../assets/fonts/DuNord-Medium.otf') format('opentype');font-weight:600;font-style:normal;font-display:swap;}
+@font-face{font-family:'Du Nord';src:url('../assets/fonts/DuNord-Medium.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap;}
 *{box-sizing:border-box;}
 :root{--bg:#FAFAF7;--surface:#ffffff;--surface-2:#f1f1ec;--ink:#0f0f0f;--ink-2:#42433f;--ink-3:#5a5a52;--muted:#86857c;--line:#0f0f0f;--line-soft:rgba(15,15,15,.16);--accent:#15924F;--media-bg:#e7e7e1;--nav-bg:rgba(250,250,247,.9);--band-bg:#0f0f0f;--band-ink:#ffffff;--band-ink-2:rgba(255,255,255,.72);--band-line:rgba(255,255,255,.14);--band-accent:#4ADE80;--band-muted:rgba(255,255,255,.5);}
 :root[data-theme="dark"]{--bg:#0c0d10;--surface:#15171c;--surface-2:#15171c;--ink:#EDEEF2;--ink-2:rgba(237,238,242,.72);--ink-3:rgba(237,238,242,.62);--muted:rgba(237,238,242,.5);--line:rgba(237,238,242,.3);--line-soft:rgba(237,238,242,.16);--accent:#4ADE80;--media-bg:#1b1d24;--nav-bg:rgba(12,13,16,.88);--band-bg:#FAFAF7;--band-ink:#0f0f0f;--band-ink-2:rgba(15,15,15,.7);--band-line:rgba(15,15,15,.14);--band-accent:#15924F;--band-muted:rgba(15,15,15,.5);}
@@ -94,7 +94,7 @@ a,button,[role="button"]{cursor:pointer;}
       </div>
     </div>
 
-    <div style="border:1px solid var(--line); overflow:hidden; background:var(--media-bg); aspect-ratio:16/9; display:none;"><video src="assets/videos/onboarding-header.mp4" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video></div>
+    <div style="border:1px solid var(--line); overflow:hidden; background:var(--media-bg); aspect-ratio:16/9; display:none;"><video src="../assets/videos/onboarding-header.mp4" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video></div>
   </div>
 
   <!-- ================= PART 01, GUIDED SETUP ================= -->
@@ -107,7 +107,7 @@ a,button,[role="button"]{cursor:pointer;}
       </div>
     </div>
 
-    <div style="border:1px solid var(--line); overflow:hidden; background:var(--media-bg);"><img loading="lazy" src="assets/images/projects/guided-setup/Hero.png" alt="Guided Setup" style="width:100%; height:auto; display:block;"></div>
+    <div style="border:1px solid var(--line); overflow:hidden; background:var(--media-bg);"><img loading="lazy" src="../assets/images/projects/guided-setup/Hero.png" alt="Guided Setup" style="width:100%; height:auto; display:block;"></div>
 
     <div style="display:grid; grid-template-columns:repeat(2,1fr); border:1px solid var(--line); overflow:hidden; margin-top:32px;">
       <div style="padding:34px 34px; border-right:1px solid var(--line-soft);"><div style="font:600 12px 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); margin-bottom:16px;">Problem</div><p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-2); margin:0;">People signed up but never learned the product, features went unused and onboarding lived nowhere.</p></div>
@@ -128,32 +128,32 @@ a,button,[role="button"]{cursor:pointer;}
     <div style="margin-top:104px;">
       <div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:18px;">// design</div>
       <h3 style="font:700 34px/1.1 'Du Nord'; letter-spacing:-.025em; margin:0 0 36px;">Designing a guided, goal-oriented setup</h3>
-      <div style="border:1px solid var(--line); overflow:hidden; background:var(--media-bg);"><img loading="lazy" src="assets/images/projects/guided-setup/design-hero.svg" alt="" style="width:100%; height:auto; display:block;"></div>
+      <div style="border:1px solid var(--line); overflow:hidden; background:var(--media-bg);"><img loading="lazy" src="../assets/images/projects/guided-setup/design-hero.svg" alt="" style="width:100%; height:auto; display:block;"></div>
 
       <h4 style="font:700 24px/1.2 'Du Nord'; margin:64px 0 16px;">Defining essential setup steps</h4>
       <p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-3); max-width:66ch; margin:0 0 24px;">Through multiple iterations we determined which tasks truly mattered during onboarding, a set aligned across the design team and scoped to give users the context they need to succeed.</p>
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; margin-bottom:20px;">
-        <img loading="lazy" src="assets/images/projects/guided-setup/image3/A.png" alt="" style="width:460px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/guided-setup/image3/A.png" alt="" style="width:460px; max-width:100%; height:auto; display:block;">
       </div>
 
       <h4 style="font:700 24px/1.2 'Du Nord'; margin:64px 0 16px;">Keeping users motivated through multi-step setup</h4>
       <p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-3); max-width:66ch; margin:0 0 24px;">Progress indicators, clear milestones, and positive reinforcement maintain momentum. Users always know where they are, what's left, and can skip optional steps or return later without losing progress.</p>
-      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; justify-content:center; align-items:center;"><img loading="lazy" src="assets/images/projects/guided-setup/image4/A.png" alt="" style="width:100%; max-width:100%; height:auto; display:block;"></div>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; justify-content:center; align-items:center;"><img loading="lazy" src="../assets/images/projects/guided-setup/image4/A.png" alt="" style="width:100%; max-width:100%; height:auto; display:block;"></div>
 
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:20px; margin-bottom:20px;">
-        <img loading="lazy" src="assets/images/projects/guided-setup/image5/A.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/guided-setup/image5/B.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/guided-setup/image5/C.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/guided-setup/image5/A.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/guided-setup/image5/B.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/guided-setup/image5/C.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
       </div>
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap;">
-        <img loading="lazy" src="assets/images/projects/guided-setup/image6/A.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/guided-setup/image6/B.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/guided-setup/image6/C.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/guided-setup/image6/A.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/guided-setup/image6/B.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/guided-setup/image6/C.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
       </div>
 
       <h4 style="font:700 24px/1.2 'Du Nord'; margin:64px 0 16px;">Expanding to B2B</h4>
       <p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-3); max-width:66ch; margin:0 0 24px;">Not all organizations want employees completing the same tasks. An admin-controlled setup page lets teams tailor onboarding steps to align with company policies.</p>
-      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; justify-content:center; align-items:center;"><img loading="lazy" src="assets/images/projects/guided-setup/image8/A.png" alt="" style="width:100%; max-width:100%; height:auto; display:block;"></div>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; justify-content:center; align-items:center;"><img loading="lazy" src="../assets/images/projects/guided-setup/image8/A.png" alt="" style="width:100%; max-width:100%; height:auto; display:block;"></div>
     </div>
   </div>
 
@@ -189,30 +189,30 @@ a,button,[role="button"]{cursor:pointer;}
 
       <div style="font:600 12px 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:#c2410c; margin-bottom:14px;">Before, the full audit</div>
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:32px; display:flex; gap:8px; justify-content:center; align-items:flex-start; flex-wrap:wrap; margin-bottom:24px;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky Before/A.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky Before/B.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky Before/C.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky Before/D.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky Before/E.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky Before/F.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky Before/G.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky Before/H.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky Before/I.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky Before/J.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky Before/A.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky Before/B.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky Before/C.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky Before/D.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky Before/E.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky Before/F.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky Before/G.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky Before/H.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky Before/I.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky Before/J.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
       </div>
 
       <div style="font:600 12px 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:#0f8a4a; margin-bottom:14px;">After, streamlined &amp; deferred</div>
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:32px; display:flex; gap:8px; justify-content:center; align-items:flex-start; flex-wrap:wrap;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky After/A.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky After/B.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky After/C.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky After/D.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky After/E.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky After/F.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky After/G.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky After/H.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky After/I.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/Sticky After/J.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky After/A.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky After/B.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky After/C.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky After/D.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky After/E.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky After/F.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky After/G.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky After/H.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky After/I.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/Sticky After/J.png" alt="" style="width:88px; max-width:100%; height:auto; display:block;">
       </div>
     </div>
 
@@ -222,24 +222,24 @@ a,button,[role="button"]{cursor:pointer;}
       <h3 style="font:700 34px/1.1 'Du Nord'; letter-spacing:-.025em; margin:0 0 18px;">A durable, product-led visual system</h3>
       <p style="font:400 18px/1.65 'Du Nord'; color:var(--ink-2); max-width:66ch; margin:0 0 36px;">Previous attempts mirrored the marketing site and fell out of sync as it evolved. We established a standardized, product-led visual system, more durable, easier to maintain, and refined over time.</p>
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; margin-bottom:20px;">
-        <img loading="lazy" src="assets/images/projects/onboarding/image1/A.png" alt="" style="width:560px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/image1/A.png" alt="" style="width:560px; max-width:100%; height:auto; display:block;">
       </div>
-      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; justify-content:center; align-items:center; margin-bottom:20px;"><img loading="lazy" src="assets/images/projects/onboarding/image2/A.png" alt="" style="width:100%; max-width:100%; height:auto; display:block;"></div>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; justify-content:center; align-items:center; margin-bottom:20px;"><img loading="lazy" src="../assets/images/projects/onboarding/image2/A.png" alt="" style="width:100%; max-width:100%; height:auto; display:block;"></div>
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; margin-bottom:20px;">
-        <img loading="lazy" src="assets/images/projects/onboarding/image3/A.png" alt="" style="width:560px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/image3/A.png" alt="" style="width:560px; max-width:100%; height:auto; display:block;">
       </div>
-      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; justify-content:center; align-items:center;"><img loading="lazy" src="assets/images/projects/onboarding/image4/A.png" alt="" style="width:100%; max-width:100%; height:auto; display:block;"></div>
+      <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; justify-content:center; align-items:center;"><img loading="lazy" src="../assets/images/projects/onboarding/image4/A.png" alt="" style="width:100%; max-width:100%; height:auto; display:block;"></div>
 
       <h4 style="font:700 24px/1.2 'Du Nord'; margin:64px 0 16px;">Native mobile onboarding</h4>
       <p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-3); max-width:66ch; margin:0 0 24px;">Sign-up previously relied on a shared web experience across platforms. Moving to a fully native mobile flow gave us end-to-end control and a smoother, more intuitive setup tailored to mobile users.</p>
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap; margin-bottom:20px;">
-        <img loading="lazy" src="assets/images/projects/onboarding/image5/A.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/image5/B.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/image5/C.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/image5/A.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/image5/B.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/image5/C.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
       </div>
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap;">
-        <img loading="lazy" src="assets/images/projects/onboarding/image6/A.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
-        <img loading="lazy" src="assets/images/projects/onboarding/image6/B.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/image6/A.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="../assets/images/projects/onboarding/image6/B.png" alt="" style="width:280px; max-width:100%; height:auto; display:block;">
       </div>
     </div>
   </div>
@@ -249,7 +249,7 @@ a,button,[role="button"]{cursor:pointer;}
 
   <!-- next -->
   <div style="max-width:1120px; margin:0 auto; padding:0 48px;">
-    <a href="case-helium.dc.html" style="display:flex; justify-content:space-between; align-items:center; text-decoration:none; color:inherit; border:1px solid var(--line); padding:36px 40px; margin:96px 0 0; background:var(--surface); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);">
+    <a href="/3/" style="display:flex; justify-content:space-between; align-items:center; text-decoration:none; color:inherit; border:1px solid var(--line); padding:36px 40px; margin:96px 0 0; background:var(--surface); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);">
       <div><div style="font:600 12px 'JetBrains Mono',monospace; color:var(--muted); letter-spacing:.06em; margin-bottom:10px;">NEXT CASE STUDY →</div><div style="font:700 30px/1.1 'Du Nord'; letter-spacing:-.02em;">Unifying an ecosystem into one platform</div></div>
       <div style="font:600 14px 'Du Nord'; color:var(--accent); white-space:nowrap; margin-left:24px;">03 / Helium</div>
     </a>
@@ -259,7 +259,7 @@ a,button,[role="button"]{cursor:pointer;}
   <div style="border-top:1px solid var(--line); margin-top:96px;">
     <div id="sr-footer" style="max-width:1120px; margin:0 auto; padding:36px 48px; display:flex; justify-content:space-between; align-items:center; font:600 13px 'JetBrains Mono',monospace; color:var(--muted);">
       <a id="sr-mail" href="#" style="color:inherit; text-decoration:none;">Email me</a>
-      <a href="stefanrhoades.pdf" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:none;">Download resume →</a>
+      <a href="../stefanrhoades.pdf" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:none;">Download resume →</a>
       <span>©2026 Stefan Rhoades</span>
     </div>
   </div>
@@ -299,9 +299,9 @@ class Component extends DCLogic {
         return;
       }
       var defs = [
-        { id: 'lottie-1', path: 'assets/animations/OpenExt.json' },
-        { id: 'lottie-2', path: 'assets/animations/PinExt.json' },
-        { id: 'lottie-3', path: 'assets/animations/fillsave.json' }
+        { id: 'lottie-1', path: '../assets/animations/OpenExt.json' },
+        { id: 'lottie-2', path: '../assets/animations/PinExt.json' },
+        { id: 'lottie-3', path: '../assets/animations/fillsave.json' }
       ];
       defs.forEach(function (d) {
         var el = document.getElementById(d.id);
