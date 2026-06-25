@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
-<script src="./band.js"></script>
+<script src="./support.js" defer></script>
+<script src="./band.js" defer></script>
 </head>
 <body>
 <x-dc>
 <helmet>
-<title>Stefan Rhoades</title>
+<title>Stefan Rhoades — Sr. Product Designer</title>
+<meta name="description" content="Portfolio of Stefan Rhoades, Sr. Product Designer with 7+ years shipping products at 1Password, Kindness.ai, and Helium.">
 <link rel="icon" href="assets/favicon/favicon.ico" sizes="any">
 <link rel="icon" href="assets/favicon/favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="assets/favicon/favicon-16x16.png" sizes="16x16" type="image/png">
@@ -89,20 +90,20 @@ a,button,[role="button"]{cursor:pointer;}
 <div style="background:var(--bg); color:var(--ink); font-family:'Du Nord',sans-serif; min-height:100vh;">
 
   <!-- nav -->
-  <div id="srnav" style="position:sticky; top:0; z-index:20; background:var(--nav-bg); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); transition:transform .4s ease;">
+  <nav id="srnav" role="navigation" aria-label="Main" style="position:sticky; top:0; z-index:20; background:var(--nav-bg); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); transition:transform .4s ease;">
     <div style="max-width:1120px; margin:0 auto; padding:22px 48px; display:flex; justify-content:space-between; align-items:center;">
       <div style="font:600 14px/1 'JetBrains Mono',monospace; letter-spacing:.02em;">stefan.chat<span style="display:inline-block; width:8px; height:15px; background:var(--accent); margin-left:3px; vertical-align:-2px; animation:srblink 1.1s steps(1) infinite;"></span></div>
       <div style="display:flex; gap:26px; align-items:center; font:600 12px/1 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--muted);">
         <a href="#work" style="color:inherit; text-decoration:none;">Work</a>
         <a href="#about" style="color:inherit; text-decoration:none;">About</a>
-        <button onClick="{{ toggleTheme }}" title="Toggle theme" style="cursor:pointer; display:inline-flex; align-items:center; gap:8px; background:transparent; border:0; padding:0;">
+        <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" title="Toggle theme" style="cursor:pointer; display:inline-flex; align-items:center; gap:8px; background:transparent; border:0; padding:0;">
           <span style="display:inline-block; width:38px; height:20px; border:1px solid var(--line); border-radius:999px; position:relative; background:var(--surface-2); transition:background .3s ease;">
             <span style="position:absolute; top:2px; left:{{ knobLeft }}; width:14px; height:14px; border-radius:50%; background:var(--accent); transition:left .3s ease;"></span>
           </span>
         </button>
       </div>
     </div>
-  </div>
+  </nav>
 
   <!-- hero -->
   <div id="sr-hero" style="max-width:1120px; margin:0 auto; padding:0 48px;">
@@ -113,7 +114,7 @@ a,button,[role="button"]{cursor:pointer;}
         <p style="font: 400 21px/1.55 'Du Nord'; color: var(--ink-2); max-width: 50ch; margin: 0">A designer who learns, iterates, and polishes the final 5%. I open, review, and merge PRs to ship products.</p>
       </div>
       <div class="mephoto" style="position:relative; border:1px solid var(--line); background:var(--media-bg); aspect-ratio:1/1; overflow:hidden; cursor:crosshair;">
-        <img src="assets/images/about-photos/stefan-hero.png" alt="Stefan Rhoades" style="width:100%; height:100%; object-fit:cover; display:block;">
+        <img fetchpriority="high" src="assets/images/about-photos/stefan-hero.png" alt="Stefan Rhoades" style="width:100%; height:100%; object-fit:cover; display:block;">
         <div class="reveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.1), rgba(8,9,11,.72));">
           <div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// off the clock</div>
           <div class="chip" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Plays guitar</div>
@@ -137,7 +138,7 @@ a,button,[role="button"]{cursor:pointer;}
     <!-- tile 1 -->
     <a href="case-authentication.dc.html" class="pcard" style="display:block; text-decoration:none; color:inherit; border:1px solid var(--line); border-radius:0; overflow:hidden; margin-bottom:48px; background:var(--surface); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);">
       <div style="display:grid; grid-template-columns:1.3fr 1fr;">
-        <div class="pmedia" style="position:relative; aspect-ratio:16/11; overflow:hidden; background:var(--media-bg); border-right:1px solid var(--line);"><video src="assets/videos/1password-autosave.mp4" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Authentication</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Autofill</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Passkeys &amp; SSO</div></div></div>
+        <div class="pmedia" style="position:relative; aspect-ratio:16/11; overflow:hidden; background:var(--media-bg); border-right:1px solid var(--line);"><video src="assets/videos/1password-autosave.mp4" preload="none" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Authentication</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Autofill</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Passkeys &amp; SSO</div></div></div>
         <div style="padding:34px 36px; display:flex; flex-direction:column;">
           <div style="font:600 12px 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:14px;">01 / 1PASSWORD / 2023</div>
           <h3 style="font:700 30px/1.1 'Du Nord'; letter-spacing:-.02em; margin:0 0 14px;">Making authentication fast &amp; seamless</h3>
@@ -156,14 +157,14 @@ a,button,[role="button"]{cursor:pointer;}
           <p style="font:400 16px/1.55 'Du Nord'; color:var(--ink-3); margin:0 0 auto;">A guided onboarding and re-built sign-up that gets people to value faster, for both individuals and enterprise teams.</p>
           <span class="viewbtn" style="align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font:600 13px/1 'Du Nord'; border:1px solid var(--line); padding:12px 18px;">View case study <span class="arrow">→</span></span>
         </div>
-        <div class="pmedia" style="position:relative; aspect-ratio:16/11; overflow:hidden; background:var(--media-bg);"><video src="assets/videos/1password-onboarding.mp4" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Onboarding</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Activation</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">B2C &amp; B2B</div></div></div>
+        <div class="pmedia" style="position:relative; aspect-ratio:16/11; overflow:hidden; background:var(--media-bg);"><video src="assets/videos/1password-onboarding.mp4" preload="none" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Onboarding</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Activation</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">B2C &amp; B2B</div></div></div>
       </div>
     </a>
 
     <!-- tile 3 -->
     <a href="case-helium.dc.html" class="pcard" style="display:block; text-decoration:none; color:inherit; border:1px solid var(--line); border-radius:0; overflow:hidden; margin-bottom:48px; background:var(--surface); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);">
       <div style="display:grid; grid-template-columns:1.3fr 1fr;">
-        <div class="pmedia" style="position:relative; aspect-ratio:16/11; overflow:hidden; background:var(--media-bg); border-right:1px solid var(--line);"><video src="assets/videos/helium-cover.mp4" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Platform</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Mobile-first</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Info architecture</div></div></div>
+        <div class="pmedia" style="position:relative; aspect-ratio:16/11; overflow:hidden; background:var(--media-bg); border-right:1px solid var(--line);"><video src="assets/videos/helium-cover.mp4" preload="none" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Platform</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Mobile-first</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Info architecture</div></div></div>
         <div style="padding:34px 36px; display:flex; flex-direction:column;">
           <div style="font:600 12px 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:14px;">03 / HELIUM / 2025</div>
           <h3 style="font:700 30px/1.1 'Du Nord'; letter-spacing:-.02em; margin:0 0 14px;">Unifying an ecosystem into one platform</h3>

@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
-<script src="./band.js"></script>
+<script src="./support.js" defer></script>
+<script src="./band.js" defer></script>
 </head>
 <body>
 <x-dc>
 <helmet>
+<title>Making authentication fast &amp; seamless — Stefan Rhoades</title>
+<meta name="description" content="How Stefan Rhoades redesigned 1Password's Auto Save and credential filling to cut authentication time by 66%.">
 <link rel="icon" href="assets/favicon/favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="assets/favicon/favicon-16x16.png" sizes="16x16" type="image/png">
 <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
@@ -76,15 +78,15 @@ a,button,[role="button"]{cursor:pointer;}
 <div style="background:var(--bg); color:var(--ink); font-family:'Du Nord',sans-serif; min-height:100vh;">
 
   <!-- nav -->
-  <div id="srnav" style="position:sticky; top:0; z-index:20; background:var(--nav-bg); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); transition:transform .4s ease;">
+  <nav id="srnav" role="navigation" aria-label="Main" style="position:sticky; top:0; z-index:20; background:var(--nav-bg); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); transition:transform .4s ease;">
     <div style="max-width:1120px; margin:0 auto; padding:22px 48px; display:flex; justify-content:space-between; align-items:center;">
       <a href="/" style="color:inherit; text-decoration:none; font:600 14px/1 'JetBrains Mono',monospace; letter-spacing:.02em;">stefan.chat<span style="display:inline-block; width:8px; height:15px; background:var(--accent); margin-left:3px; vertical-align:-2px; animation:srblink 1.1s steps(1) infinite;"></span></a>
       <div style="display:flex; gap:26px; align-items:center; font:600 12px/1 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--muted);">
         <a href="/#work" style="color:inherit; text-decoration:none;">← All work</a>
-        <button onClick="{{ toggleTheme }}" title="Toggle theme" style="cursor:pointer; display:inline-flex; align-items:center; gap:8px; background:transparent; border:0; padding:0;"><span style="display:inline-block; width:38px; height:20px; border:1px solid var(--line); border-radius:999px; position:relative; background:var(--surface-2); transition:background .3s ease;"><span style="position:absolute; top:2px; left:{{ knobLeft }}; width:14px; height:14px; border-radius:50%; background:var(--accent); transition:left .3s ease;"></span></span></button>
+        <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" title="Toggle theme" style="cursor:pointer; display:inline-flex; align-items:center; gap:8px; background:transparent; border:0; padding:0;"><span style="display:inline-block; width:38px; height:20px; border:1px solid var(--line); border-radius:999px; position:relative; background:var(--surface-2); transition:background .3s ease;"><span style="position:absolute; top:2px; left:{{ knobLeft }}; width:14px; height:14px; border-radius:50%; background:var(--accent); transition:left .3s ease;"></span></span></button>
       </div>
     </div>
-  </div>
+  </nav>
 
   <!-- hero -->
   <div style="max-width:1120px; margin:0 auto; padding:80px 48px 0;">
@@ -115,7 +117,7 @@ a,button,[role="button"]{cursor:pointer;}
       </div>
     </div>
 
-    <div style="border:1px solid var(--line); overflow:hidden; background:var(--media-bg);"><img src="assets/images/projects/autosave1.png" alt="Auto Save" style="width:100%; height:auto; display:block;"></div>
+    <div style="border:1px solid var(--line); overflow:hidden; background:var(--media-bg);"><img loading="lazy" src="assets/images/projects/autosave1.png" alt="Auto Save" style="width:100%; height:auto; display:block;"></div>
 
     <!-- O/P/S -->
     <div style="display:grid; grid-template-columns:repeat(2,1fr); border:1px solid var(--line); overflow:hidden; margin-top:32px;">
@@ -169,41 +171,41 @@ a,button,[role="button"]{cursor:pointer;}
       <p style="font:400 18px/1.65 'Du Nord'; color:var(--ink-2); max-width:66ch; margin:0 0 36px;">One save flow for every sign in method. It captures the credential only after auth succeeds, then clearly confirms it worked.</p>
 
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap; margin-bottom:20px;">
-        <img src="assets/images/projects/autosave/autosave-1/image1.png" alt="" style="width:300px; max-width:100%; height:auto; display:block;">
-        <img src="assets/images/projects/autosave/autosave-1/image2.png" alt="" style="width:300px; max-width:100%; height:auto; display:block;">
-        <img src="assets/images/projects/autosave/autosave-1/image3.png" alt="" style="width:300px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/autosave/autosave-1/image1.png" alt="" style="width:300px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/autosave/autosave-1/image2.png" alt="" style="width:300px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/autosave/autosave-1/image3.png" alt="" style="width:300px; max-width:100%; height:auto; display:block;">
       </div>
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap; margin-bottom:20px;">
-        <img src="assets/images/projects/autosave/autosave-2/image1.png" alt="" style="width:300px; max-width:100%; height:auto; display:block;">
-        <img src="assets/images/projects/autosave/autosave-2/image2.png" alt="" style="width:300px; max-width:100%; height:auto; display:block;">
-        <img src="assets/images/projects/autosave/autosave-2/image3.png" alt="" style="width:300px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/autosave/autosave-2/image1.png" alt="" style="width:300px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/autosave/autosave-2/image2.png" alt="" style="width:300px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/autosave/autosave-2/image3.png" alt="" style="width:300px; max-width:100%; height:auto; display:block;">
       </div>
 
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap; margin-bottom:20px;">
-        <img src="assets/images/projects/autosave/autosave-3/image1.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
-        <img src="assets/images/projects/autosave/autosave-3/image2.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/autosave/autosave-3/image1.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/autosave/autosave-3/image2.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
       </div>
 
       <h4 style="font:700 24px/1.2 'Du Nord'; margin:64px 0 16px;">Supporting users when 1Password is locked</h4>
       <p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-3); max-width:66ch; margin:0 0 24px;">Autosaving requires 1Password to be unlocked, but sign-in can begin before that happens. When we detect a login or account-creation attempt while locked, we prompt the user to unlock so we can securely save or surface credentials.</p>
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; margin-bottom:20px;">
-        <img src="assets/images/projects/autosave/autosave-4/image1.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/autosave/autosave-4/image1.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
       </div>
 
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap; margin-bottom:20px;">
-        <img src="assets/images/projects/autosave/autosave-5/image1.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
-        <img src="assets/images/projects/autosave/autosave-5/image2.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/autosave/autosave-5/image1.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/autosave/autosave-5/image2.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
       </div>
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap;">
-        <img src="assets/images/projects/autosave/autosave-6/image1.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
-        <img src="assets/images/projects/autosave/autosave-6/image2.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/autosave/autosave-6/image1.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/autosave/autosave-6/image2.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
       </div>
 
       <h4 style="font:700 24px/1.2 'Du Nord'; margin:64px 0 16px;">Onboarding users to Auto Save</h4>
       <p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-3); max-width:66ch; margin:0 0 24px;">A contextual "What's New" screen explained the new saving behavior at the right moment, reducing confusion, supporting adoption, and establishing a repeatable pattern for future system-level changes.</p>
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:40px; justify-content:center; align-items:center; flex-wrap:wrap;">
-        <img src="assets/images/projects/autosave/autosave-7/image1.png" alt="" style="width:460px; max-width:100%; height:auto; display:block;">
-        <img src="assets/images/projects/autosave/autosave-7/image2.png" alt="" style="width:460px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/autosave/autosave-7/image1.png" alt="" style="width:460px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/autosave/autosave-7/image2.png" alt="" style="width:460px; max-width:100%; height:auto; display:block;">
       </div>
     </div>
 
@@ -232,7 +234,7 @@ a,button,[role="button"]{cursor:pointer;}
       </div>
     </div>
 
-    <div style="border:1px solid var(--line); overflow:hidden; background:var(--media-bg);"><img src="assets/images/projects/filling-creds/hero.png" alt="Filling credentials" style="width:100%; height:auto; display:block;"></div>
+    <div style="border:1px solid var(--line); overflow:hidden; background:var(--media-bg);"><img loading="lazy" src="assets/images/projects/filling-creds/hero.png" alt="Filling credentials" style="width:100%; height:auto; display:block;"></div>
 
     <div style="display:grid; grid-template-columns:repeat(2,1fr); border:1px solid var(--line); overflow:hidden; margin-top:32px;">
       <div style="padding:34px 34px; border-right:1px solid var(--line-soft);"><div style="font:600 12px 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); margin-bottom:16px;">Problem</div><p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-2); margin:0;">Competitors kept evolving their inline experiences while ours stood still, leaving 1Password behind on capability and modern auth.</p></div>
@@ -255,14 +257,14 @@ a,button,[role="button"]{cursor:pointer;}
       <div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:18px;">// design</div>
       <h3 style="font:700 34px/1.1 'Du Nord'; letter-spacing:-.025em; margin:0 0 18px;">Meeting users where they are</h3>
       <p style="font:400 18px/1.65 'Du Nord'; color:var(--ink-2); max-width:66ch; margin:0 0 36px;">Clearly communicate state so it's always obvious how to fill. By removing ambiguity and reducing friction, the experience stays easy, predictable, and reliable.</p>
-      <div style="border:1px solid var(--line); overflow:hidden; background:var(--media-bg); margin-bottom:20px;"><img src="assets/images/projects/filling-creds/design-hero.png" alt="" style="width:100%; height:auto; display:block;"></div>
+      <div style="border:1px solid var(--line); overflow:hidden; background:var(--media-bg); margin-bottom:20px;"><img loading="lazy" src="assets/images/projects/filling-creds/design-hero.png" alt="" style="width:100%; height:auto; display:block;"></div>
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap; margin-bottom:20px;">
-        <img src="assets/images/projects/filling-creds/image-2/A.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
-        <img src="assets/images/projects/filling-creds/image-2/B.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/filling-creds/image-2/A.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/filling-creds/image-2/B.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
       </div>
       <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap;">
-        <img src="assets/images/projects/filling-creds/image-3/A.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
-        <img src="assets/images/projects/filling-creds/image-3/B.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/filling-creds/image-3/A.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+        <img loading="lazy" src="assets/images/projects/filling-creds/image-3/B.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
       </div>
 
       <div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin:72px 0 28px;">// improvements — from user feedback</div>
@@ -273,8 +275,8 @@ a,button,[role="button"]{cursor:pointer;}
           <h4 style="font:700 22px/1.2 'Du Nord'; margin:0 0 10px;">Field logo with a chevron</h4>
           <p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-3); margin:0 0 20px; max-width:64ch;">A chevron indicates whether the menu is open or closed and gives users direct control to toggle it, reducing obstruction of the page and making state immediately clear.</p>
           <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap;">
-            <img src="assets/images/projects/filling-creds/image-4/A.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
-            <img src="assets/images/projects/filling-creds/image-4/B.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+            <img loading="lazy" src="assets/images/projects/filling-creds/image-4/A.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+            <img loading="lazy" src="assets/images/projects/filling-creds/image-4/B.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
           </div>
         </div>
       </div>
@@ -284,8 +286,8 @@ a,button,[role="button"]{cursor:pointer;}
           <h4 style="font:700 22px/1.2 'Du Nord'; margin:0 0 10px;">Stateful field control</h4>
           <p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-3); margin:0 0 20px; max-width:64ch;">The chevron area communicates when the menu is locked, guiding users to unlock first so it's clear what's required before the menu can be used.</p>
           <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap;">
-            <img src="assets/images/projects/filling-creds/image-5/A.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
-            <img src="assets/images/projects/filling-creds/image-5/B.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+            <img loading="lazy" src="assets/images/projects/filling-creds/image-5/A.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+            <img loading="lazy" src="assets/images/projects/filling-creds/image-5/B.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
           </div>
         </div>
       </div>
@@ -295,8 +297,8 @@ a,button,[role="button"]{cursor:pointer;}
           <h4 style="font:700 22px/1.2 'Du Nord'; margin:0 0 10px;">Empty state improvements</h4>
           <p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-3); margin:0 0 20px; max-width:64ch;">The old empty state resembled the normal state, which users found unhelpful. We made it visually distinct and intentional, clearly signaling nothing is available without unnecessary disruption.</p>
           <div style="border:1px solid var(--line); background:var(--media-bg); padding:48px; display:flex; gap:32px; justify-content:center; align-items:center; flex-wrap:wrap;">
-            <img src="assets/images/projects/filling-creds/image-6/A.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
-            <img src="assets/images/projects/filling-creds/image-6/B.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+            <img loading="lazy" src="assets/images/projects/filling-creds/image-6/A.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
+            <img loading="lazy" src="assets/images/projects/filling-creds/image-6/B.png" alt="" style="width:340px; max-width:100%; height:auto; display:block;">
           </div>
         </div>
       </div>
