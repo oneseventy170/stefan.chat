@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<script src="./band.js"></script>
 </head>
 <body>
 <x-dc>
@@ -219,14 +220,7 @@ a,button,[role="button"]{cursor:pointer;}
   </div>
 
   <!-- Impact band P1 -->
-  <div style="background:var(--band-bg); color:var(--band-ink); margin-top:104px; transition:background .35s ease;">
-    <div style="max-width:1120px; margin:0 auto; padding:0 48px;">
-      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--band-line);">
-        <div style="background:var(--band-bg); padding:40px 40px 48px; transition:background .35s ease;"><div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div><div style="display:flex; align-items:baseline;"><span class="count" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">150,000</span></div><div style="font:600 15px 'Du Nord'; color:var(--band-ink); margin:18px 0 6px;">new items saved in 6 months</div><div style="font:400 15px/1.6 'Du Nord'; color:var(--band-ink-2); max-width:42ch;">Auto Save the most successful feature launch in 1Password's history.</div></div>
-        <div style="background:var(--band-bg); padding:40px 40px 48px; transition:background .35s ease;"><div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div><div style="display:flex; align-items:baseline;"><span class="count" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">66</span><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em; color:var(--band-accent);">%</span></div><div style="font:600 15px 'Du Nord'; color:var(--band-ink); margin:18px 0 6px;">reduced authentication time</div><div style="font:400 15px/1.6 'Du Nord'; color:var(--band-ink-2); max-width:42ch;">Auto Save dropped credential saving to 6 from 9 seconds.</div></div>
-      </div>
-    </div>
-  </div>
+  <div class="sr-metric-band" data-cols="2" data-margin="104"><script type="application/json">[{"value":150,"suffix":"K","heading":"new items saved in 6 months","body":"Auto Save the most successful feature launch in 1Password's history."},{"value":66,"suffix":"%","heading":"reduced authentication time","body":"Auto Save dropped credential saving to 6 from 9 seconds."}]</script></div>
 
   <!-- ================= PART 02, FILLING CREDENTIALS ================= -->
   <div style="max-width:1120px; margin:0 auto; padding:0 48px;">
@@ -320,14 +314,7 @@ a,button,[role="button"]{cursor:pointer;}
   </div>
 
   <!-- Impact band P2 -->
-  <div style="background:var(--band-bg); color:var(--band-ink); margin-top:104px; transition:background .35s ease;">
-    <div style="max-width:1120px; margin:0 auto; padding:0 48px;">
-      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--band-line);">
-        <div style="background:var(--band-bg); padding:40px 40px 48px; transition:background .35s ease;"><div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div><div style="display:flex; align-items:baseline;"><span class="count" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">96</span></div><div style="font:600 15px 'Du Nord'; color:var(--band-ink); margin:18px 0 6px;">user-reported tickets closed</div><div style="font:400 15px/1.6 'Du Nord'; color:var(--band-ink-2); max-width:42ch;">Listening closely to feedback let us directly address the problems users most wanted solved.</div></div>
-        <div style="background:var(--band-bg); padding:40px 40px 48px; transition:background .35s ease;"><div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div><div style="display:flex; align-items:baseline;"><span class="count" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">34</span><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em; color:var(--band-accent);">%</span></div><div style="font:600 15px 'Du Nord'; color:var(--band-ink); margin:18px 0 6px;">reduced total ticket influx</div><div style="font:400 15px/1.6 'Du Nord'; color:var(--band-ink-2); max-width:42ch;">A sustained decline in incoming tickets confirmed the work was moving in the right direction.</div></div>
-      </div>
-    </div>
-  </div>
+  <div class="sr-metric-band" data-cols="2" data-margin="104"><script type="application/json">[{"value":96,"heading":"user-reported tickets closed","body":"Listening closely to feedback let us directly address the problems users most wanted solved."},{"value":34,"suffix":"%","heading":"reduced total ticket influx","body":"A sustained decline in incoming tickets confirmed the work was moving in the right direction."}]</script></div>
 
   <!-- next -->
   <div style="max-width:1120px; margin:0 auto; padding:0 48px;">

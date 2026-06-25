@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<script src="./band.js"></script>
 </head>
 <body>
 <x-dc>
@@ -155,14 +156,7 @@ a,button,[role="button"]{cursor:pointer;}
   </div>
 
   <!-- Impact band P1 -->
-  <div style="background:var(--band-bg); color:var(--band-ink); margin-top:104px; transition:background .35s ease;">
-    <div style="max-width:1120px; margin:0 auto; padding:0 48px;">
-      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--band-line);">
-        <div style="background:var(--band-bg); padding:40px 40px 48px; transition:background .35s ease;"><div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div><div style="display:flex; align-items:baseline;"><span class="count" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">+21</span><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em; color:var(--band-accent);">%</span></div><div style="font:600 15px 'Du Nord'; color:var(--band-ink); margin:18px 0 6px;">jump in onboarding completion</div><div style="font:400 15px/1.6 'Du Nord'; color:var(--band-ink-2); max-width:42ch;">52% to 73% of users finished onboarding and set up.</div></div>
-        <div style="background:var(--band-bg); padding:40px 40px 48px; transition:background .35s ease;"><div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div><div style="display:flex; align-items:baseline;"><span class="count" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">3</span><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em; color:var(--band-accent);">×</span></div><div style="font:600 15px 'Du Nord'; color:var(--band-ink); margin:18px 0 6px;">to first saved login</div><div style="font:400 15px/1.6 'Du Nord'; color:var(--band-ink-2); max-width:42ch;">Saving a first login used to take 3 sessions, now users get there during their 1st.</div></div>
-      </div>
-    </div>
-  </div>
+  <div class="sr-metric-band" data-cols="2" data-margin="104"><script type="application/json">[{"prefix":"+","value":21,"suffix":"%","heading":"jump in onboarding completion","body":"52% to 73% of users finished onboarding and set up."},{"value":3,"suffix":"×","heading":"to first saved login","body":"Saving a first login used to take 3 sessions, now users get there during their 1st."}]</script></div>
 
   <!-- ================= PART 02, SIGN UP 2.0 ================= -->
   <div style="max-width:1120px; margin:0 auto; padding:0 48px;">
@@ -249,14 +243,7 @@ a,button,[role="button"]{cursor:pointer;}
   </div>
 
   <!-- Impact band P2 -->
-  <div style="background:var(--band-bg); color:var(--band-ink); margin-top:104px; transition:background .35s ease;">
-    <div style="max-width:1120px; margin:0 auto; padding:0 48px;">
-      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--band-line);">
-        <div style="background:var(--band-bg); padding:40px 40px 48px; transition:background .35s ease;"><div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div><div style="display:flex; align-items:baseline;"><span class="count" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">2.8</span><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em; color:var(--band-accent);">×</span></div><div style="font:600 15px 'Du Nord'; color:var(--band-ink); margin:18px 0 6px;">reduced time to get into the product</div><div style="font:400 15px/1.6 'Du Nord'; color:var(--band-ink-2); max-width:42ch;">Users got into the product faster and began using 1Password with significantly less friction.</div></div>
-        <div style="background:var(--band-bg); padding:40px 40px 48px; transition:background .35s ease;"><div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div><div style="display:flex; align-items:baseline;"><span class="count" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">100</span><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em; color:var(--band-accent);">%</span></div><div style="font:600 15px 'Du Nord'; color:var(--band-ink); margin:18px 0 6px;">reported user satisfaction</div><div style="font:400 15px/1.6 'Du Nord'; color:var(--band-ink-2); max-width:42ch;">A/B testing with B2B customers showed a clear preference, all participants chose the new flow.</div></div>
-      </div>
-    </div>
-  </div>
+  <div class="sr-metric-band" data-cols="2" data-margin="104"><script type="application/json">[{"value":2.8,"decimal":true,"suffix":"×","heading":"reduced time to get into the product","body":"Users got into the product faster and began using 1Password with significantly less friction."},{"value":100,"suffix":"%","heading":"reported user satisfaction","body":"A/B testing with B2B customers showed a clear preference, all participants chose the new flow."}]</script></div>
 
   <!-- next -->
   <div style="max-width:1120px; margin:0 auto; padding:0 48px;">

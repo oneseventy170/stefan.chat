@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<script src="./band.js"></script>
 </head>
 <body>
 <x-dc>
@@ -178,27 +179,7 @@ a,button,[role="button"]{cursor:pointer;}
   </div>
 
   <!-- achievement bar (full-bleed) -->
-  <div ref="{{ bandRef }}" style="background:var(--band-bg); color:var(--band-ink); margin-top:56px; transition:background .35s ease;">
-    <div id="sr-band" style="max-width:1120px; margin:0 auto; padding:0 48px;">
-      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--band-line);">
-        <div style="background:var(--band-bg); padding:34px 36px 56px; transition:background .35s ease;">
-          <div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div>
-          <div style="display:flex; align-items:baseline;"><span ref="{{ n1 }}" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">150</span><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em; color:var(--band-accent);">K</span></div>
-          <div style="font:500 14px/1.5 'Du Nord'; color:var(--band-ink-2); margin-top:16px; max-width:34ch;">new items saved in 6 months, 1Password's most successful launch.</div>
-        </div>
-        <div style="background:var(--band-bg); padding:34px 36px 56px; transition:background .35s ease;">
-          <div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div>
-          <div style="display:flex; align-items:baseline;"><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">+</span><span ref="{{ n2 }}" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">21</span><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em; color:var(--band-accent);">%</span></div>
-          <div style="font:500 14px/1.5 'Du Nord'; color:var(--band-ink-2); margin-top:16px; max-width:34ch;">jump in onboarding completion, 52% to 73%.</div>
-        </div>
-        <div style="background:var(--band-bg); padding:34px 36px 56px; transition:background .35s ease;">
-          <div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;">// impact</div>
-          <div style="display:flex; align-items:baseline;"><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">+</span><span id="n3" style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em;">9.4</span><span style="font:700 66px/0.95 'Saol Text',serif; letter-spacing:-.03em; color:var(--band-accent);">%</span></div>
-          <div style="font:500 14px/1.5 'Du Nord'; color:var(--band-ink-2); margin-top:16px; max-width:34ch;">more hotspots deployed. 12,000 deployed in 3 months, post Helium World launch.</div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="sr-metric-band" data-cols="3" data-margin="56"><script type="application/json">[{"value":150,"suffix":"K","body":"new items saved in 6 months, 1Password’s most successful launch."},{"prefix":"+","value":21,"suffix":"%","body":"jump in onboarding completion, 52% to 73%."},{"prefix":"+","value":9.4,"decimal":true,"suffix":"%","body":"more hotspots deployed. 12,000 deployed in 3 months, post Helium World launch."}]</script></div>
 
   <!-- about -->
   <div id="about" style="max-width:1120px; margin:0 auto; padding:80px 48px; display:grid; grid-template-columns:300px 1fr; gap:56px;">
@@ -240,31 +221,6 @@ a,button,[role="button"]{cursor:pointer;}
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   state = { theme: 'dark' };
-  constructor(props){ super(props); this.bandRef = React.createRef(); this.n1 = React.createRef(); this.n2 = React.createRef(); this.n3 = React.createRef(); }
-  animateCount(el, target){
-    if(!el) return;
-    var start = null, dur = 1400;
-    var step = function(ts){
-      if(start===null) start = ts;
-      var p = Math.min((ts-start)/dur, 1);
-      var eased = 1 - Math.pow(1-p, 3);
-      el.textContent = Math.round(target*eased).toString();
-      if(p<1) requestAnimationFrame(step); else el.textContent = target.toString();
-    };
-    requestAnimationFrame(step);
-  }
-  animateDecimal(el, target){
-    if(!el) return;
-    var start = null, dur = 1400;
-    var step = function(ts){
-      if(start===null) start = ts;
-      var p = Math.min((ts-start)/dur, 1);
-      var eased = 1 - Math.pow(1-p, 3);
-      el.textContent = (target*eased).toFixed(1);
-      if(p<1) requestAnimationFrame(step); else el.textContent = target.toFixed(1);
-    };
-    requestAnimationFrame(step);
-  }
   componentDidMount() {
     var t = 'dark';
     try { t = localStorage.getItem('sr-theme') || 'dark'; } catch (e) {}
@@ -286,24 +242,6 @@ class Component extends DCLogic {
         ticking = false;
       });
     }, { passive: true });
-
-    var self2 = this;
-    if (this.bandRef.current && 'IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) {
-            self2.animateCount(self2.n1.current, 150);
-            self2.animateCount(self2.n2.current, 21);
-            self2.animateDecimal(document.getElementById('n3'), 9.4);
-          } else {
-            if (self2.n1.current) self2.n1.current.textContent = '0';
-            if (self2.n2.current) self2.n2.current.textContent = '0';
-            var n3el = document.getElementById('n3'); if (n3el) n3el.textContent = '0';
-          }
-        });
-      }, { threshold: 0.4 });
-      io.observe(this.bandRef.current);
-    }
 
     // Nudge card videos to autoplay (muted); retry on first user interaction + on hover
     var playAll = function () {
@@ -327,7 +265,6 @@ class Component extends DCLogic {
   renderVals() {
     var self = this;
     return {
-      bandRef: this.bandRef, n1: this.n1, n2: this.n2,
       knobLeft: this.state.theme === 'dark' ? '20px' : '2px',
       toggleTheme: function () {
         var next = self.state.theme === 'dark' ? 'light' : 'dark';
