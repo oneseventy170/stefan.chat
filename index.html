@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
 <script src="./band.js" defer></script>
+<!-- Arm the intro before first paint so animated elements start hidden (no flash).
+     JS-gated: if scripting is off, .sr-anim is never set and everything stays visible. -->
+<script>document.documentElement.classList.add('sr-anim');</script>
 </head>
 <body>
 <x-dc>
@@ -37,7 +40,11 @@ a,button,[role="button"]{cursor:pointer;}
 @keyframes srblink{0%,48%{opacity:1}49%,100%{opacity:0}}
 @media (max-width:768px){
   div[style*="grid-template-columns"]{grid-template-columns:1fr !important;}
-  #sr-hero,#work,#sr-band,#about{padding-left:24px !important; padding-right:24px !important;}
+  #srstack,#sr-band,#about{padding-left:24px !important; padding-right:24px !important;}
+  #srstack > .stack-item:first-child{position:static !important;}
+  .stack-card{padding-bottom:0 !important;}
+  /* Compensate for the last card's peek translateY (2×26px) so the gap before impact stays ~9vh. */
+  #srstack{padding-bottom:calc(9vh + 52px) !important;}
   h1{font-size:40px !important; line-height:1.06 !important;}
   h2{font-size:30px !important;}
   h3{font-size:24px !important;}
@@ -85,6 +92,28 @@ a,button,[role="button"]{cursor:pointer;}
 .mephoto:hover .chip:nth-child(4){transition-delay:.31s}
 .mephoto:hover .chip:nth-child(5){transition-delay:.38s}
 .mephoto:hover .chip:nth-child(6){transition-delay:.45s}
+/* Fail-open reveal: hidden state ONLY applies while html.sr-anim is set by JS.
+   No JS (or JS error) -> no .sr-anim -> content is fully visible. */
+/* Hero intro: rise up + fade in, same speed for all. */
+.sr-anim .sr-hu,.sr-anim .sr-hi{opacity:0;transform:translateY(30px);transition:opacity 1.6s cubic-bezier(.2,.7,.2,1),transform 1.6s cubic-bezier(.2,.7,.2,1);}
+.sr-anim .sr-hu.sr-in,.sr-anim .sr-hi.sr-in{opacity:1;transform:none;}
+@media (prefers-reduced-motion: reduce){
+  .sr-anim .sr-hu,.sr-anim .sr-hi{opacity:1;transform:none;transition:none;}
+}
+/* Sticky stacking deck: hero is the base card, project cards stack on top on scroll. */
+#srstack{position:relative;}
+/* Project cards pin near the top in natural position; JS adds a per-card translateY peek + scale. */
+.stack-item{position:sticky;top:88px;z-index:calc(var(--si,0) + 1);}
+.stack-item:not(:last-child){margin-bottom:9vh;}
+.stack-inner{transform-origin:center top;will-change:transform;}
+/* Opaque surface so each card fully covers the one behind it (JS equalizes heights). */
+.stack-card{background:var(--bg);padding-bottom:20px;}
+.stack-label{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 22px;}
+@media (prefers-reduced-motion: reduce){
+  .stack-item{position:static;}
+  .stack-card{min-height:0;}
+  .stack-inner{transform:none!important;margin-bottom:48px;}
+}
 </style>
 </helmet>
 
@@ -106,15 +135,17 @@ a,button,[role="button"]{cursor:pointer;}
     </div>
   </nav>
 
-  <!-- hero -->
-  <div id="sr-hero" style="max-width:1120px; margin:0 auto; padding:0 48px;">
+  <!-- hero + projects: sticky stacking deck (natural position; cards overlay the hero) -->
+  <div id="srstack" style="max-width:1120px; margin:0 auto; padding:0 48px calc(9vh + 78px);">
+    <!-- card 0: hero (gets overlaid by the project cards) -->
+    <div class="stack-item" style="--si:0;"><div class="stack-inner">
     <div style="display:grid; grid-template-columns:1fr 380px; gap:56px; align-items:center; padding:80px 0 72px;">
       <div>
-        <div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:30px;">// SR. PRODUCT DESIGNER (7+ YRS)</div>
-        <h1 style="font-family: 'Saol Text',serif; font-style: italic; font-weight: 400; font-size: 72px; line-height: 1; letter-spacing: -.01em; margin: 0 0 28px">Hi, I'm Stefan.</h1>
-        <p style="font: 400 21px/1.55 'Du Nord'; color: var(--ink-2); max-width: 50ch; margin: 0">A designer who learns, iterates, and polishes the final 5%. I open, review, and merge PRs to ship products.</p>
+        <div class="sr-hu" style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:30px; animation-delay:.05s">// SR. PRODUCT DESIGNER (7+ YRS)</div>
+        <h1 class="sr-hu" style="font-family: 'Saol Text',serif; font-style: italic; font-weight: 400; font-size: 72px; line-height: 1; letter-spacing: -.01em; margin: 0 0 28px; animation-delay:.2s">Hi, I'm Stefan.</h1>
+        <p class="sr-hu" style="font: 400 21px/1.55 'Du Nord'; color: var(--ink-2); max-width: 50ch; margin: 0; animation-delay:.38s">A designer who learns, iterates, and polishes the final 5%. I open, review, and merge PRs to ship products.</p>
       </div>
-      <div class="mephoto" style="position:relative; border:1px solid var(--line); background:var(--media-bg); aspect-ratio:1/1; overflow:hidden; cursor:crosshair;">
+      <div class="mephoto sr-hi" style="position:relative; border:1px solid var(--line); background:var(--media-bg); aspect-ratio:1/1; overflow:hidden; cursor:crosshair;">
         <picture><source srcset="assets/images/about-photos/stefan-hero.webp" type="image/webp"><img fetchpriority="high" src="assets/images/about-photos/stefan-hero.png" alt="Stefan Rhoades" style="width:100%; height:100%; object-fit:cover; display:block;"></picture>
         <div class="reveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.1), rgba(8,9,11,.72));">
           <div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// off the clock</div>
@@ -124,20 +155,20 @@ a,button,[role="button"]{cursor:pointer;}
           <div class="chip" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Loves the Rolling Stones</div>
           <div class="chip" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Eats breakfast tacos</div>
         </div>
-        <div class="daytag" style="position:absolute; left:0; bottom:0; padding:7px 11px; background:var(--accent); font:600 11px/1 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--on-accent);">How's your day going?</div>
+        <div class="daytag" style="position:absolute; left:0; bottom:0; padding:7px 11px; background:var(--accent); font:600 11px/1 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--on-accent);">Colorado, USA</div>
       </div>
     </div>
-  </div>
+    </div></div>
 
-  <!-- work -->
-  <div id="work" style="max-width:1120px; margin:0 auto; padding:56px 48px 24px;">
-    <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:28px;">
+    <!-- card 1: project 1 (with selected-work label) -->
+    <div class="stack-item" id="work" style="--si:1;"><div class="stack-inner">
+    <div class="sr-hu">
+    <div class="stack-label">
       <span style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);">// selected work</span>
       <span style="font:600 12px/1 'JetBrains Mono',monospace; color:var(--muted);">03 PROJECTS</span>
     </div>
-
-    <!-- tile 1 -->
-    <a href="/1/" class="pcard" style="display:block; text-decoration:none; color:inherit; border:1px solid var(--line); border-radius:0; overflow:hidden; margin-bottom:48px; background:var(--surface); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);">
+    <div class="stack-card">
+    <a href="/1/" class="pcard" style="display:block; text-decoration:none; color:inherit; border:1px solid var(--line); border-radius:0; overflow:hidden; background:var(--surface); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);">
       <div style="display:grid; grid-template-columns:1.3fr 1fr;">
         <div class="pmedia" style="position:relative; aspect-ratio:16/11; overflow:hidden; background:var(--media-bg); border-right:1px solid var(--line);"><video src="assets/videos/1password-autosave.mp4" preload="none" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Authentication</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Autofill</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Passkeys &amp; SSO</div></div></div>
         <div style="padding:34px 36px; display:flex; flex-direction:column;">
@@ -148,9 +179,13 @@ a,button,[role="button"]{cursor:pointer;}
         </div>
       </div>
     </a>
+    </div>
+    </div>
+    </div></div>
 
-    <!-- tile 2 -->
-    <a href="/2/" class="pcard" style="display:block; text-decoration:none; color:inherit; border:1px solid var(--line); border-radius:0; overflow:hidden; margin-bottom:48px; background:var(--surface); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);">
+    <!-- card 2: project 2 -->
+    <div class="stack-item" style="--si:2;"><div class="stack-inner stack-card">
+    <a href="/2/" class="pcard" style="display:block; text-decoration:none; color:inherit; border:1px solid var(--line); border-radius:0; overflow:hidden; background:var(--surface); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);">
       <div style="display:grid; grid-template-columns:1fr 1.3fr;">
         <div style="padding:34px 36px; display:flex; flex-direction:column; border-right:1px solid var(--line);">
           <div style="font:600 12px 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:14px;">02 / 1PASSWORD / 2024</div>
@@ -161,9 +196,11 @@ a,button,[role="button"]{cursor:pointer;}
         <div class="pmedia" style="position:relative; aspect-ratio:16/11; overflow:hidden; background:var(--media-bg);"><video src="assets/videos/1password-onboarding.mp4" preload="none" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Onboarding</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Activation</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">B2C &amp; B2B</div></div></div>
       </div>
     </a>
+    </div></div>
 
-    <!-- tile 3 -->
-    <a href="/3/" class="pcard" style="display:block; text-decoration:none; color:inherit; border:1px solid var(--line); border-radius:0; overflow:hidden; margin-bottom:48px; background:var(--surface); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);">
+    <!-- card 3: project 3 -->
+    <div class="stack-item" style="--si:3;"><div class="stack-inner stack-card">
+    <a href="/3/" class="pcard" style="display:block; text-decoration:none; color:inherit; border:1px solid var(--line); border-radius:0; overflow:hidden; background:var(--surface); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);">
       <div style="display:grid; grid-template-columns:1.3fr 1fr;">
         <div class="pmedia" style="position:relative; aspect-ratio:16/11; overflow:hidden; background:var(--media-bg); border-right:1px solid var(--line);"><video src="assets/videos/helium-cover.mp4" preload="none" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Platform</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Mobile-first</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Info architecture</div></div></div>
         <div style="padding:34px 36px; display:flex; flex-direction:column;">
@@ -174,20 +211,21 @@ a,button,[role="button"]{cursor:pointer;}
         </div>
       </div>
     </a>
+    </div></div>
+  </div><!-- /srstack -->
 
-    <div style="display:flex; align-items:center; justify-content:center; gap:14px; padding:30px 0; border:1px dashed var(--line-soft); border-radius:0; margin-top:0; color:var(--muted); font:600 13px/1 'JetBrains Mono',monospace;">
-      04 / NEXT CASE STUDY, IN PROGRESS
-    </div>
-  </div>
 
   <!-- achievement bar (full-bleed) -->
-  <div class="sr-metric-band" data-cols="3" data-margin="56"><script type="application/json">[{"value":150,"suffix":"K","body":"new items saved in 6 months, 1Password’s most successful launch."},{"prefix":"+","value":21,"suffix":"%","body":"jump in onboarding completion, 52% to 73%."},{"prefix":"+","value":9.4,"decimal":true,"suffix":"%","body":"more hotspots deployed. 12,000 deployed in 3 months, post Helium World launch."}]</script></div>
+  <div class="sr-metric-band" data-cols="3" data-margin="0"><script type="application/json">[{"value":150,"suffix":"K","body":"new items saved in 6 months, 1Password’s most successful launch."},{"prefix":"+","value":21,"suffix":"%","body":"jump in onboarding completion, 52% to 73%."},{"prefix":"+","value":9.4,"decimal":true,"suffix":"%","body":"more hotspots deployed. 12,000 deployed in 3 months, post Helium World launch."}]</script></div>
 
   <!-- about -->
-  <div id="about" style="max-width:1120px; margin:0 auto; padding:80px 48px; display:grid; grid-template-columns:300px 1fr; gap:56px;">
+  <div id="about" style="max-width:1120px; margin:0 auto; padding:9vh 48px;">
+    <div style="display:flex; justify-content:space-between; align-items:baseline; margin:0 0 28px;">
+      <span style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);">// about</span>
+    </div>
+    <div style="display:grid; grid-template-columns:300px 1fr; gap:56px;">
     <div>
-      <div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:26px;">// about</div>
-      <div style="border-top:1px solid var(--line);">
+      <div>
         <div style="padding:16px 0; border-bottom:1px dashed var(--line-soft);"><div style="font:700 16px 'Du Nord';">Kindness.ai</div><div style="display:flex; justify-content:space-between; margin-top:4px;"><span style="font:500 13px 'Du Nord'; color:var(--muted);">Sr. Product Designer</span><span style="font:500 12px 'JetBrains Mono',monospace; color:var(--muted);">Feb 2026–Now</span></div></div>
         <div style="padding:16px 0; border-bottom:1px dashed var(--line-soft);"><div style="font:700 16px 'Du Nord';">1Password</div><div style="display:flex; justify-content:space-between; margin-top:4px;"><span style="font:500 13px 'Du Nord'; color:var(--muted);">Sr. Product Designer</span><span style="font:500 12px 'JetBrains Mono',monospace; color:var(--muted);">2021–2026</span></div></div>
         <div style="padding:16px 0; border-bottom:1px dashed var(--line-soft);"><div style="font:700 16px 'Du Nord';">Helium</div><div style="display:flex; justify-content:space-between; margin-top:4px;"><span style="font:500 13px 'Du Nord'; color:var(--muted);">Lead Product Designer</span><span style="font:500 12px 'JetBrains Mono',monospace; color:var(--muted);">2025</span></div></div>
@@ -205,6 +243,7 @@ a,button,[role="button"]{cursor:pointer;}
         <span style="font:500 12px/1 'JetBrains Mono',monospace; color:var(--ink); padding:8px 12px; border:1px solid var(--line); border-radius:0;">0→1 products</span>
         <span style="font:500 12px/1 'JetBrains Mono',monospace; color:var(--ink); padding:8px 12px; border:1px solid var(--line); border-radius:0;">Cross-functional leadership</span>
       </div>
+    </div>
     </div>
   </div>
 
@@ -244,6 +283,80 @@ class Component extends DCLogic {
         ticking = false;
       });
     }, { passive: true });
+
+    // --- On-load hero intro (no scroll triggers; fail-open via html.sr-anim) ---
+    // Hero text (eyebrow + title + body) fades up together, then the photo.
+    document.documentElement.classList.add('sr-anim');
+    var introEls = [].slice.call(document.querySelectorAll('.sr-hu, .sr-hi'));
+    // Every element cascades individually (0.45s apart) so the stagger is clearly visible,
+    // while the 1.6s fade keeps them overlapping. eyebrow, h1, p, photo, first card.
+    var delays = [200, 650, 1100, 1550, 2000];
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        introEls.forEach(function (el, i) {
+          setTimeout(function () { el.classList.add('sr-in'); }, delays[i] != null ? delays[i] : 500 + i * 900);
+        });
+      });
+    });
+    // Safety net: never let anything stay hidden, even if a frame/timer is missed
+    setTimeout(function () {
+      introEls.forEach(function (el) { el.classList.add('sr-in'); });
+    }, 5000);
+
+    // --- Sticky stacking deck (scroll-driven scale; vanilla port of Framer useTransform) ---
+    var stack = document.getElementById('srstack');
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (stack && !reduceMotion) {
+      var inners = [].slice.call(stack.querySelectorAll('.stack-inner'));
+      var covers = [].slice.call(stack.querySelectorAll('.stack-card'));
+      var n = inners.length;
+      var PEEK = 26; // px each card sits below the one before, so its top edge peeks out
+      // Size the opaque covers to at least the hero height so each fully covers the hero
+      // (and the card behind it). The label sits outside the cover, so the hero shows
+      // through behind it. inners[0] is the hero (no cover) → no runaway.
+      // On mobile the hero is much taller than the cards, so it scrolls free (excluded from
+      // the deck) and the cards only cover each other — equal heights, no opaque fill.
+      var isMobile = function () { return window.innerWidth <= 768; };
+      var sizeStack = function () {
+        covers.forEach(function (el) { el.style.minHeight = ''; });
+        var max = isMobile() ? 0 : (inners[0] ? inners[0].offsetHeight : 0);
+        covers.forEach(function (el) { if (el.offsetHeight > max) max = el.offsetHeight; });
+        covers.forEach(function (el) { el.style.minHeight = max + 'px'; });
+        stack.style.setProperty('--card-h', max + 'px');
+      };
+      var stackTicking = false;
+      var updateStack = function () {
+        var startIdx = isMobile() ? 1 : 0; // mobile: hero (index 0) is not part of the deck
+        if (startIdx === 1) inners[0].style.transform = '';
+        var deckCount = n - startIdx;
+        var rect = stack.getBoundingClientRect();
+        var travel = stack.offsetHeight - window.innerHeight; // scroll length inside the deck
+        var progress = travel > 0 ? Math.min(1, Math.max(0, -rect.top / travel)) : 0;
+        for (var i = startIdx; i < n; i++) {
+          var j = i - startIdx; // position within the deck
+          // Each card scales from 1 down to its target as the deck progresses (back cards recede).
+          var targetScale = Math.max(0.5, 1 - (deckCount - 1 - j) * 0.1);
+          var rangeStart = j / deckCount;
+          var local = Math.min(1, Math.max(0, (progress - rangeStart) / (1 - rangeStart)));
+          var scale = 1 + (targetScale - 1) * local;
+          inners[i].style.transform = 'translateY(' + (j * PEEK) + 'px) scale(' + scale.toFixed(4) + ')';
+        }
+        stackTicking = false;
+      };
+      var onStackScroll = function () {
+        if (stackTicking) return;
+        stackTicking = true;
+        requestAnimationFrame(updateStack);
+      };
+      var resize = function () { sizeStack(); updateStack(); };
+      window.addEventListener('scroll', onStackScroll, { passive: true });
+      window.addEventListener('resize', resize, { passive: true });
+      // Re-measure once fonts/media settle (initial measure can be off before fonts load).
+      window.addEventListener('load', resize);
+      if (document.fonts && document.fonts.ready) { document.fonts.ready.then(resize); }
+      sizeStack();
+      updateStack();
+    }
 
     // Nudge card videos to autoplay (muted); retry on first user interaction + on hover
     var playAll = function () {
