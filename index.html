@@ -41,10 +41,9 @@ a,button,[role="button"]{cursor:pointer;}
 @media (max-width:768px){
   div[style*="grid-template-columns"]{grid-template-columns:1fr !important;}
   #srstack,#sr-band,#about{padding-left:24px !important; padding-right:24px !important;}
-  #srstack > .stack-item:first-child{position:static !important;}
-  .stack-card{padding-bottom:0 !important;}
-  /* Compensate for the last card's peek translateY (2×26px) so the gap before impact stays ~9vh. */
-  #srstack{padding-bottom:calc(9vh + 52px) !important;}
+  #srstack{padding-bottom:9vh !important;}
+  /* Single-column cards: keep the text above the image regardless of source order. */
+  .pcard .pmedia{order:2; border-right:0 !important;}
   h1{font-size:40px !important; line-height:1.06 !important;}
   h2{font-size:30px !important;}
   h3{font-size:24px !important;}
@@ -105,6 +104,8 @@ a,button,[role="button"]{cursor:pointer;}
 /* Project cards pin near the top in natural position; JS adds a per-card translateY peek + scale. */
 .stack-item{position:sticky;top:88px;z-index:calc(var(--si,0) + 1);}
 .stack-item:not(:last-child){margin-bottom:9vh;}
+/* Hero→first-card gap: tuned so the whitespace below the hero matches the gap above it. */
+#srstack > .stack-item:first-child{margin-bottom:11vh;}
 .stack-inner{transform-origin:center top;will-change:transform;}
 /* Opaque surface so each card fully covers the one behind it (JS equalizes heights). */
 .stack-card{background:var(--bg);padding-bottom:20px;}
@@ -136,10 +137,10 @@ a,button,[role="button"]{cursor:pointer;}
   </nav>
 
   <!-- hero + projects: sticky stacking deck (natural position; cards overlay the hero) -->
-  <div id="srstack" style="max-width:1120px; margin:0 auto; padding:0 48px calc(9vh + 78px);">
+  <div id="srstack" style="max-width:1120px; margin:0 auto; padding:0 48px 9vh;">
     <!-- card 0: hero (gets overlaid by the project cards) -->
     <div class="stack-item" style="--si:0;"><div class="stack-inner">
-    <div style="display:grid; grid-template-columns:1fr 380px; gap:56px; align-items:center; padding:80px 0 72px;">
+    <div style="display:grid; grid-template-columns:1fr 380px; gap:56px; align-items:center; padding:9vh 0 0;">
       <div>
         <div class="sr-hu" style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:30px; animation-delay:.05s">// SR. PRODUCT DESIGNER (7+ YRS)</div>
         <h1 class="sr-hu" style="font-family: 'Saol Text',serif; font-style: italic; font-weight: 400; font-size: 72px; line-height: 1; letter-spacing: -.01em; margin: 0 0 28px; animation-delay:.2s">Hi, I'm Stefan.</h1>
@@ -212,6 +213,9 @@ a,button,[role="button"]{cursor:pointer;}
       </div>
     </a>
     </div></div>
+    <!-- Minimal spacer: just enough scroll length for the last card to finish stacking
+         (even peek steps) before the deck exits — no perceptible hold. -->
+    <div class="stack-spacer" aria-hidden="true" style="height:1vh;"></div>
   </div><!-- /srstack -->
 
 
@@ -219,7 +223,7 @@ a,button,[role="button"]{cursor:pointer;}
   <div class="sr-metric-band" data-cols="3" data-margin="0"><script type="application/json">[{"value":150,"suffix":"K","body":"new items saved in 6 months, 1Password’s most successful launch."},{"prefix":"+","value":21,"suffix":"%","body":"jump in onboarding completion, 52% to 73%."},{"prefix":"+","value":9.4,"decimal":true,"suffix":"%","body":"more hotspots deployed. 12,000 deployed in 3 months, post Helium World launch."}]</script></div>
 
   <!-- about -->
-  <div id="about" style="max-width:1120px; margin:0 auto; padding:9vh 48px;">
+  <div id="about" style="max-width:1120px; margin:0 auto; padding:10.5vh 48px;">
     <div style="display:flex; justify-content:space-between; align-items:baseline; margin:0 0 28px;">
       <span style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);">// about</span>
     </div>
@@ -288,9 +292,10 @@ class Component extends DCLogic {
     // Hero text (eyebrow + title + body) fades up together, then the photo.
     document.documentElement.classList.add('sr-anim');
     var introEls = [].slice.call(document.querySelectorAll('.sr-hu, .sr-hi'));
-    // Every element cascades individually (0.45s apart) so the stagger is clearly visible,
-    // while the 1.6s fade keeps them overlapping. eyebrow, h1, p, photo, first card.
-    var delays = [200, 650, 1100, 1550, 2000];
+    // Hero text cascades individually (0.45s apart) so the stagger is clearly visible, while
+    // the 1.6s fade keeps them overlapping. The first project card comes in together with the
+    // photo. Order: eyebrow, h1, p, photo, first card.
+    var delays = [200, 650, 1100, 1550, 1550];
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         introEls.forEach(function (el, i) {
@@ -308,39 +313,81 @@ class Component extends DCLogic {
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (stack && !reduceMotion) {
       var inners = [].slice.call(stack.querySelectorAll('.stack-inner'));
+      var items = [].slice.call(stack.querySelectorAll('.stack-item'));
       var covers = [].slice.call(stack.querySelectorAll('.stack-card'));
       var n = inners.length;
       var PEEK = 26; // px each card sits below the one before, so its top edge peeks out
+      var STICKY_TOP = 88; // matches .stack-item top in CSS
       // Size the opaque covers to at least the hero height so each fully covers the hero
       // (and the card behind it). The label sits outside the cover, so the hero shows
-      // through behind it. inners[0] is the hero (no cover) → no runaway.
-      // On mobile the hero is much taller than the cards, so it scrolls free (excluded from
-      // the deck) and the cards only cover each other — equal heights, no opaque fill.
-      var isMobile = function () { return window.innerWidth <= 768; };
+      // through behind it. inners[0] is the hero (no cover) → no runaway. Mobile uses the
+      // same deck as desktop: the hero is the pinned base card and the project cards
+      // scroll up to overlay it.
       var sizeStack = function () {
+        // Equalize EVERY item's total height so all four pin and unpin at the same scroll —
+        // that's what keeps the peek steps even both while the deck holds and as it exits.
+        // The hero is the tallest item and (unlike the cards) has no fill, so its natural
+        // height is a stable target every card can match. Measuring the cards directly is
+        // unreliable: once they fill their covers, their height feeds back into the cover.
+        // The work card carries the "selected work" label outside its cover, so size that
+        // cover to fill only the remainder of the shared height.
+        inners.forEach(function (el) { el.style.minHeight = ''; });
         covers.forEach(function (el) { el.style.minHeight = ''; });
-        var max = isMobile() ? 0 : (inners[0] ? inners[0].offsetHeight : 0);
-        covers.forEach(function (el) { if (el.offsetHeight > max) max = el.offsetHeight; });
-        covers.forEach(function (el) { el.style.minHeight = max + 'px'; });
-        stack.style.setProperty('--card-h', max + 'px');
+        var target = 0;
+        items.forEach(function (it) { if (it.offsetHeight > target) target = it.offsetHeight; });
+        items.forEach(function (it, i) {
+          var cover = it.querySelector('.stack-card');
+          if (cover) {
+            var chrome = it.offsetHeight - cover.offsetHeight; // label etc. outside the cover
+            cover.style.minHeight = Math.max(0, target - chrome) + 'px';
+          } else {
+            inners[i].style.minHeight = target + 'px'; // hero: no opaque cover, it's the base
+          }
+        });
+        stack.style.setProperty('--card-h', target + 'px');
+        // The front card's cover is padded taller than its content to hide the hero behind it.
+        // Once the deck has scrolled past, that page-coloured filler is exposed below the last
+        // card. Pull the following section up over it (it paints on top via z-index, below) so
+        // the gap to the impact row matches the rest of the page instead of a tall void.
+        var lastCard = items[items.length - 1].querySelector('.pcard');
+        var after = stack.nextElementSibling;
+        if (lastCard && after) {
+          var filler = Math.round(items[items.length - 1].offsetHeight - lastCard.offsetHeight);
+          after.style.marginTop = filler > 0 ? (-filler + 'px') : '';
+          // Paint the section on top of the deck so it covers the exposed filler rather than
+          // the (higher-z) sticky card filler covering it.
+          after.style.position = 'relative';
+          after.style.zIndex = '5';
+        }
       };
       var stackTicking = false;
+      var docTop = function (el) { var y = 0; while (el) { y += el.offsetTop; el = el.offsetParent; } return y; };
       var updateStack = function () {
-        var startIdx = isMobile() ? 1 : 0; // mobile: hero (index 0) is not part of the deck
-        if (startIdx === 1) inners[0].style.transform = '';
-        var deckCount = n - startIdx;
-        var rect = stack.getBoundingClientRect();
-        var travel = stack.offsetHeight - window.innerHeight; // scroll length inside the deck
-        var progress = travel > 0 ? Math.min(1, Math.max(0, -rect.top / travel)) : 0;
-        for (var i = startIdx; i < n; i++) {
-          var j = i - startIdx; // position within the deck
-          // Each card scales from 1 down to its target as the deck progresses (back cards recede).
-          var targetScale = Math.max(0.5, 1 - (deckCount - 1 - j) * 0.1);
-          var rangeStart = j / deckCount;
-          var local = Math.min(1, Math.max(0, (progress - rangeStart) / (1 - rangeStart)));
+        // Each card recedes to its target scale over a fixed span of scroll that ENDS when the
+        // next card pins (so it recedes as the next card covers it, not before). The span start
+        // is clamped to scroll 0, so at the top of the page nothing is pre-scaled — the hero
+        // sits at full size, lined up with the cards. The front card has nothing covering it.
+        var span = window.innerHeight - STICKY_TOP;
+        var y = window.scrollY || window.pageYOffset || 0;
+        for (var i = 0; i < n; i++) {
+          // Back cards recede further so they nest behind the ones in front of them.
+          var targetScale = Math.max(0.5, 1 - (n - 1 - i) * 0.1);
+          var local = 0;
+          if (i < n - 1) {
+            var pinScroll = docTop(items[i + 1]) - STICKY_TOP; // scroll at which the next card pins
+            var rampStart = Math.max(0, pinScroll - span);     // don't begin before the top of the page
+            var len = pinScroll - rampStart;
+            local = len > 0 ? Math.min(1, Math.max(0, (y - rampStart) / len)) : 0;
+          }
           var scale = 1 + (targetScale - 1) * local;
-          inners[i].style.transform = 'translateY(' + (j * PEEK) + 'px) scale(' + scale.toFixed(4) + ')';
+          inners[i].style.transform = 'translateY(' + (i * PEEK) + 'px) scale(' + scale.toFixed(4) + ')';
         }
+        // The hero is the first item to unpin; once it scrolls up out of the deck (while the
+        // last card is still stacking) its eyebrow would peek above the cards. It's fully
+        // covered by the stacked cards at that point, so hide it on unpin. Opacity only — no
+        // layout change, so the spacing/stacking stays exactly as tuned.
+        var heroPinned = items[0].getBoundingClientRect().top >= STICKY_TOP - 1;
+        inners[0].style.opacity = heroPinned ? '' : '0';
         stackTicking = false;
       };
       var onStackScroll = function () {
