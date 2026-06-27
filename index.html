@@ -359,35 +359,42 @@ class Component extends DCLogic {
           after.style.position = 'relative';
           after.style.zIndex = '5';
         }
+        // Cache layout positions for the scroll handler so it never reads layout (offsetTop/
+        // getBoundingClientRect) per frame — that interleaved read/write was thrashing layout
+        // and tanking the framerate, very visible under iOS Low Power Mode's throttled rAF.
+        pinScrolls = [];
+        for (var c = 0; c < n - 1; c++) pinScrolls[c] = docTop(items[c + 1]) - STICKY_TOP;
       };
       var stackTicking = false;
+      var pinScrolls = [];      // per-card: scroll at which the NEXT card pins (filled by sizeStack)
       var docTop = function (el) { var y = 0; while (el) { y += el.offsetTop; el = el.offsetParent; } return y; };
       var updateStack = function () {
-        // Each card recedes to its target scale over a fixed span of scroll that ENDS when the
-        // next card pins (so it recedes as the next card covers it, not before). The span start
-        // is clamped to scroll 0, so at the top of the page nothing is pre-scaled — the hero
-        // sits at full size, lined up with the cards. The front card has nothing covering it.
+        // Pure math + style writes — zero layout reads. Each card recedes to its target scale
+        // over a fixed span of scroll that ENDS when the next card pins (so it recedes as the
+        // next card covers it, not before). The span start is clamped to scroll 0, so at the top
+        // of the page nothing is pre-scaled — the hero sits at full size, lined up with the cards.
         var span = window.innerHeight - STICKY_TOP;
         var y = window.scrollY || window.pageYOffset || 0;
+        var heroLocal = 0;
         for (var i = 0; i < n; i++) {
           // Back cards recede further so they nest behind the ones in front of them.
           var targetScale = Math.max(0.5, 1 - (n - 1 - i) * 0.1);
           var local = 0;
           if (i < n - 1) {
-            var pinScroll = docTop(items[i + 1]) - STICKY_TOP; // scroll at which the next card pins
-            var rampStart = Math.max(0, pinScroll - span);     // don't begin before the top of the page
+            var pinScroll = pinScrolls[i];                 // cached; scroll at which next card pins
+            var rampStart = Math.max(0, pinScroll - span); // don't begin before the top of the page
             var len = pinScroll - rampStart;
             local = len > 0 ? Math.min(1, Math.max(0, (y - rampStart) / len)) : 0;
           }
+          if (i === 0) heroLocal = local;
           var scale = 1 + (targetScale - 1) * local;
           inners[i].style.transform = 'translateY(' + (i * PEEK) + 'px) scale(' + scale.toFixed(4) + ')';
         }
-        // The hero is the first item to unpin; once it scrolls up out of the deck (while the
-        // last card is still stacking) its eyebrow would peek above the cards. It's fully
-        // covered by the stacked cards at that point, so hide it on unpin. Opacity only — no
-        // layout change, so the spacing/stacking stays exactly as tuned.
-        var heroPinned = items[0].getBoundingClientRect().top >= STICKY_TOP - 1;
-        inners[0].style.opacity = heroPinned ? '' : '0';
+        // Fade the hero out as the first card rises to cover it, so its title/eyebrow doesn't
+        // peek in the gap beside the card label. Full opacity at the top (heroLocal 0), gone
+        // once the first card has fully covered it (heroLocal 1) — which also covers the unpin
+        // case. Opacity only — spacing/stacking stay exactly as tuned.
+        inners[0].style.opacity = heroLocal >= 1 ? '0' : (1 - heroLocal);
         stackTicking = false;
       };
       var onStackScroll = function () {
@@ -401,6 +408,19 @@ class Component extends DCLogic {
       // Re-measure once fonts/media settle (initial measure can be off before fonts load).
       window.addEventListener('load', resize);
       if (document.fonts && document.fonts.ready) { document.fonts.ready.then(resize); }
+      // Keep the cached positions correct through any late layout shift (image/video/font load).
+      // sizeStack's writes are idempotent, so this converges and won't loop. Skips the reflow it
+      // triggers itself via a flag, and coalesces bursts with rAF.
+      if (typeof ResizeObserver !== 'undefined') {
+        var roQueued = false, roSelf = false;
+        var ro = new ResizeObserver(function () {
+          if (roSelf) { roSelf = false; return; }
+          if (roQueued) return;
+          roQueued = true;
+          requestAnimationFrame(function () { roQueued = false; roSelf = true; resize(); });
+        });
+        ro.observe(stack);
+      }
       sizeStack();
       updateStack();
     }
