@@ -553,7 +553,7 @@ setInterval(() =&gt; {
 <section id="close" class="wrap">
   <p class="eyebrow close-eye">// YOUR TURN</p>
   <h2 class="close-h">Let's <span class="em">talk.</span></h2>
-  <p class="close-sub">You said hit you up direct, blow your mind, make it undeniable. Consider it done<span id="chosen"></span>.</p>
+  <p class="close-sub">You said hit you up direct, blow your mind, make it undeniable. How'd I do?<span id="chosen"></span></p>
   <a id="cta" href="#" class="cta">Email me <span class="arrow">→</span></a>
 </section>
 
@@ -779,7 +779,7 @@ setInterval(() =&gt; {
       document.querySelectorAll('.team').forEach(function (x) { x.classList.remove('sel'); });
       t.classList.add('sel');
       chosenTeam = t.getAttribute('data-team');
-      var ch = document.getElementById('chosen'); if (ch) ch.textContent = ', starting with ' + chosenTeam;
+      var ch = document.getElementById('chosen'); if (ch) ch.textContent = ' ' + chosenTeam + ' it is.';
       if (cta) { cta.href = ctaHref(); }
       notifyTeam(chosenTeam);
     });
