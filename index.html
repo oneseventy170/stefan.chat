@@ -362,8 +362,16 @@ class Component extends DCLogic {
         // Cache layout positions for the scroll handler so it never reads layout (offsetTop/
         // getBoundingClientRect) per frame — that interleaved read/write was thrashing layout
         // and tanking the framerate, very visible under iOS Low Power Mode's throttled rAF.
+        // NOTE: don't read the items' own offsetTop here — position:sticky elements report
+        // their *stuck* position, so measuring on a page restored mid-scroll bakes in wrong
+        // pin points and the deck never animates. Rebuild the natural flow positions from
+        // heights + margins instead, anchored on the (non-sticky) stack container.
         pinScrolls = [];
-        for (var c = 0; c < n - 1; c++) pinScrolls[c] = docTop(items[c + 1]) - STICKY_TOP;
+        var flowTop = docTop(stack);
+        for (var c = 0; c < n - 1; c++) {
+          flowTop += items[c].offsetHeight + (parseFloat(getComputedStyle(items[c]).marginBottom) || 0);
+          pinScrolls[c] = flowTop - STICKY_TOP;
+        }
       };
       var stackTicking = false;
       var pinScrolls = [];      // per-card: scroll at which the NEXT card pins (filled by sizeStack)
