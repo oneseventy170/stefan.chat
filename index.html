@@ -96,8 +96,16 @@ a,button,[role="button"]{cursor:pointer;}
 /* Hero intro: rise up + fade in, same speed for all. */
 .sr-anim .sr-hu,.sr-anim .sr-hi{opacity:0;transform:translateY(30px);transition:opacity 1.6s cubic-bezier(.2,.7,.2,1),transform 1.6s cubic-bezier(.2,.7,.2,1);}
 .sr-anim .sr-hu.sr-in,.sr-anim .sr-hi.sr-in{opacity:1;transform:none;}
+/* Hero text: word-by-word blur-in cascade. The parent .sr-split stays visible as a
+   block (its words carry the reveal); each word sharpens on the parent's sr-in flip,
+   staggered by --wd. JS splits the text into .sr-w spans; without JS the plain text
+   just shows (fail-open). */
+.sr-anim .sr-hu.sr-split{opacity:1;transform:none;}
+.sr-anim .sr-split .sr-w{display:inline-block;opacity:0;filter:blur(8px);transition:opacity .75s cubic-bezier(.22,1,.36,1),filter .75s cubic-bezier(.22,1,.36,1);transition-delay:var(--wd,0s);}
+.sr-anim .sr-split.sr-in .sr-w{opacity:1;filter:blur(0);}
 @media (prefers-reduced-motion: reduce){
   .sr-anim .sr-hu,.sr-anim .sr-hi{opacity:1;transform:none;transition:none;}
+  .sr-anim .sr-split .sr-w{opacity:1;filter:none;transform:none;transition:none;}
 }
 /* Sticky stacking deck: hero is the base card, project cards stack on top on scroll. */
 #srstack{position:relative;}
@@ -142,9 +150,9 @@ a,button,[role="button"]{cursor:pointer;}
     <div class="stack-item" style="--si:0;"><div class="stack-inner">
     <div style="display:grid; grid-template-columns:1fr 380px; gap:56px; align-items:center; padding:9vh 0 0;">
       <div>
-        <div class="sr-hu" style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:30px; animation-delay:.05s">// SR. PRODUCT DESIGNER (7+ YRS)</div>
-        <h1 class="sr-hu" style="font-family: 'Saol Text',serif; font-style: italic; font-weight: 400; font-size: 72px; line-height: 1; letter-spacing: -.01em; margin: 0 0 28px; animation-delay:.2s">Hi, I'm Stefan.</h1>
-        <p class="sr-hu" style="font: 400 21px/1.55 'Du Nord'; color: var(--ink-2); max-width: 50ch; margin: 0; animation-delay:.38s">I'm a designer who learns, iterates, and polishes the final 5%. I review PRs and ship products.</p>
+        <div class="sr-hu sr-split" style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:30px; animation-delay:.05s">// SR. PRODUCT DESIGNER (7+ YRS)</div>
+        <h1 class="sr-hu sr-split" style="font-family: 'Saol Text',serif; font-style: italic; font-weight: 400; font-size: 72px; line-height: 1; letter-spacing: -.01em; margin: 0 0 28px; animation-delay:.2s">Hi, I'm Stefan.</h1>
+        <p class="sr-hu sr-split" style="font: 400 21px/1.55 'Du Nord'; color: var(--ink-2); max-width: 50ch; margin: 0; animation-delay:.38s">I'm a designer who learns, iterates, and polishes the final 5%. I review PRs and ship products.</p>
       </div>
       <div class="mephoto sr-hi" style="position:relative; border:1px solid var(--line); background:var(--media-bg); aspect-ratio:1/1; overflow:hidden; cursor:crosshair;">
         <picture><source srcset="assets/images/about-photos/stefan-hero.webp" type="image/webp"><img fetchpriority="high" src="assets/images/about-photos/stefan-hero.png" alt="Stefan Rhoades" style="width:100%; height:100%; object-fit:cover; display:block;"></picture>
@@ -291,11 +299,22 @@ class Component extends DCLogic {
     // --- On-load hero intro (no scroll triggers; fail-open via html.sr-anim) ---
     // Hero text (eyebrow + title + body) fades up together, then the photo.
     document.documentElement.classList.add('sr-anim');
+    // Split the hero text into word spans for the blur-in cascade (blur 8px -> 0,
+    // no movement — matched to bilt.com/card). The headline keeps its slow, even
+    // pace (a word every .5s); the eyebrow and paragraph ripple at their natural
+    // 80ms/word and end whenever they end.
+    [].slice.call(document.querySelectorAll('.sr-split')).forEach(function (el) {
+      var words = (el.textContent || '').trim().split(/\s+/);
+      var step = el.tagName === 'H1' ? 0.5 : 0.08;
+      el.innerHTML = words.map(function (w, i) {
+        return '<span class="sr-w" style="--wd:' + (i * step).toFixed(3) + 's">' + w + '</span>';
+      }).join(' ');
+    });
     var introEls = [].slice.call(document.querySelectorAll('.sr-hu, .sr-hi'));
-    // Hero text cascades individually (0.45s apart) so the stagger is clearly visible, while
-    // the 1.6s fade keeps them overlapping. The first project card comes in together with the
-    // photo. Order: eyebrow, h1, p, photo, first card.
-    var delays = [200, 650, 1100, 1550, 1550];
+    // The headline leads; the eyebrow and paragraph start together as its last word
+    // lands, each ending on its own. The photo and first project card follow.
+    // Order: eyebrow, h1, p, photo, first card.
+    var delays = [1250, 200, 1250, 1550, 1550];
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         introEls.forEach(function (el, i) {
