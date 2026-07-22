@@ -52,7 +52,7 @@ a{color:inherit; text-decoration:none;}
 
 .eyebrow{font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.14em; text-transform:uppercase; color:#3AE380; opacity:0; transition:opacity .45s ease;}
 .panel:hover .eyebrow, .panel:focus-within .eyebrow{opacity:1;}
-.desc{font:400 16px/1.6 'Du Nord'; color:rgba(255,255,255,.82); max-width:30ch; margin:0;}
+.desc{font:400 16px/1.6 'Du Nord'; color:rgba(255,255,255,.82); max-width:42ch; margin:0;}
 .links{display:flex; gap:26px; align-items:center;}
 .links a{font:600 12px/1 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.08em; color:#fff; padding-bottom:5px; border-bottom:1px solid rgba(255,255,255,.4); transition:color .2s ease, border-color .2s ease;}
 .links a:hover{color:#3AE380; border-color:#3AE380;}
@@ -74,13 +74,16 @@ a{color:inherit; text-decoration:none;}
   /* no eyebrow tag on mobile */
   .eyebrow{display:none;}
   .desc{font-size:14px;}
+  /* stacked panels are tall — flow the reveal right under the title
+     instead of anchoring it 64px below center (which leaves a big gap) */
+  .reveal{position:static; top:auto; padding:0; gap:14px;}
   .panel.graft video{object-position:center center;}
 }
 
 /* touch devices only: no hover, so tap a card to reveal its details.
    Gated on hover, not width, so a resized desktop window keeps hover. */
 @media (hover:none){
-  .reveal{position:static; top:auto; padding:0; display:none; opacity:1; transform:none; pointer-events:auto; gap:14px;}
+  .reveal{display:none; opacity:1; transform:none; pointer-events:auto;}
   .panel.open .content{background:rgba(7,8,11,.92);}
   .panel.open .reveal{display:flex;}
   .panel.open .eyebrow{opacity:1;}
@@ -107,7 +110,7 @@ a{color:inherit; text-decoration:none;}
       <span class="eyebrow">// keystroke recorder</span>
       <h2 class="name notbot">NotBot</h2>
       <div class="reveal">
-        <p class="desc">Records your keystrokes as you write, then gives you a link so anyone can watch you type it back. Proof of authorship — no backend, nothing stored.</p>
+        <p class="desc">Records your keystrokes as you write, then gives you a link so anyone can watch you type it back. Proof of authorship, with no backend and nothing stored.</p>
         <div class="links">
           <a href="#" target="_blank" rel="noopener">Visit NotBot</a>
           <a href="https://github.com/oneseventy170/NotBot" target="_blank" rel="noopener">View repo</a>
@@ -124,7 +127,7 @@ a{color:inherit; text-decoration:none;}
       <span class="eyebrow">// pull requests, for designers</span>
       <h2 class="name graft">Graft</h2>
       <div class="reveal">
-        <p class="desc">A designer-focused way to contribute to Git. Branch and edit in scoped areas — no auth or routing — and ship PRs that arrive pre-annotated for dev.</p>
+        <p class="desc">A designer-focused way to contribute to Git. Branch and edit in scoped areas with no auth or routing, then ship PRs that arrive pre-annotated for dev.</p>
         <span class="status progress">In progress</span>
       </div>
     </div>
@@ -137,7 +140,7 @@ a{color:inherit; text-decoration:none;}
       <span class="eyebrow">// homekit light switch</span>
       <h2 class="name flick">Flick</h2>
       <div class="reveal">
-        <p class="desc">Make your smart switches match your home — customize style, color, wall texture, even wallpaper. Tactile control of every room, from your phone.</p>
+        <p class="desc">Make your smart switches match your home. Customize style, color, wall texture, even wallpaper. Tactile control of every room, from your phone.</p>
         <span class="status">Coming soon</span>
       </div>
     </div>
