@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stefan • AI Projects</title>
+<meta name="description" content="Products Stefan Rhoades has built with AI — NotBot, Graft, and Flick.">
+<link rel="icon" href="../assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" href="../assets/favicon/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../assets/favicon/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Lexend:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Saol Text';src:url('../assets/fonts/SaolText-Light.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Saol Text';src:url('../assets/fonts/SaolText-LightItalic.otf') format('opentype');font-weight:400;font-style:italic;font-display:swap;}
+@font-face{font-family:'Saol Text';src:url('../assets/fonts/SaolText-Bold.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap;}
+@font-face{font-family:'Du Nord';src:url('../assets/fonts/DuNord-Regular.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Du Nord';src:url('../assets/fonts/DuNord-Medium.otf') format('opentype');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'Du Nord';src:url('../assets/fonts/DuNord-Medium.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap;}
+
+*{box-sizing:border-box;}
+html,body{margin:0; height:100vh; height:100dvh; overflow:hidden; background:#07080b; color:#fff; font-family:'Du Nord',sans-serif; -webkit-font-smoothing:antialiased;}
+body{display:flex; flex-direction:column;}
+a{color:inherit; text-decoration:none;}
+@keyframes blink{0%,48%{opacity:1}49%,100%{opacity:0}}
+
+.wrap{display:flex; flex:1; min-height:0; width:100%;}
+
+.panel{position:relative; flex:1; min-width:0; overflow:hidden; border-right:1px solid rgba(255,255,255,.12);}
+.panel:last-child{border-right:0;}
+/* per-product fallback background (shows until/if the video loads) */
+.panel.notbot{background:radial-gradient(130% 90% at 50% 22%, rgba(58,227,128,.16), transparent 62%), #0b1310;}
+.panel.graft{background:radial-gradient(130% 90% at 50% 22%, rgba(84,155,255,.16), transparent 62%), #0b0f18;}
+.panel.flick{background:radial-gradient(130% 90% at 50% 22%, rgba(255,176,32,.15), transparent 62%), #15110a;}
+
+.panel video, .panel img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; z-index:0;}
+.panel.notbot video{object-position:left center;}
+
+/* content sits over the video; a light scrim at rest, opaque black on hover */
+.content{position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; gap:14px; padding:48px 40px; background:rgba(7,8,11,.32); transition:background .45s ease;}
+.panel:hover .content, .panel:focus-within .content{background:rgba(7,8,11,.9);}
+
+.name{line-height:1; color:#fff; margin:0; transition:transform .45s cubic-bezier(.2,.7,.2,1);}
+/* branded wordmark placeholders — swap for each product's real brand font/logo */
+.name.notbot{font-family:'Caveat',cursive; font-weight:700; font-size:clamp(46px,5.6vw,78px); letter-spacing:0;}
+.name.graft{font-family:'Lexend',sans-serif; font-weight:700; font-size:clamp(34px,4vw,58px); letter-spacing:-.02em;}
+.name.flick{font-family:'Saol Text',serif; font-style:italic; font-weight:400; font-size:clamp(36px,4.4vw,62px); letter-spacing:-.01em;}
+
+.reveal{position:absolute; left:0; right:0; top:calc(50% + 64px); padding:0 40px; display:flex; flex-direction:column; align-items:center; gap:24px; opacity:0; transform:translateY(10px); transition:opacity .45s ease, transform .45s cubic-bezier(.2,.7,.2,1); pointer-events:none;}
+.panel:hover .reveal, .panel:focus-within .reveal{opacity:1; transform:none; pointer-events:auto;}
+
+.eyebrow{font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.14em; text-transform:uppercase; color:#3AE380; opacity:0; transition:opacity .45s ease;}
+.panel:hover .eyebrow, .panel:focus-within .eyebrow{opacity:1;}
+.desc{font:400 16px/1.6 'Du Nord'; color:rgba(255,255,255,.82); max-width:30ch; margin:0;}
+.links{display:flex; gap:26px; align-items:center;}
+.links a{font:600 12px/1 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.08em; color:#fff; padding-bottom:5px; border-bottom:1px solid rgba(255,255,255,.4); transition:color .2s ease, border-color .2s ease;}
+.links a:hover{color:#3AE380; border-color:#3AE380;}
+.status{display:inline-flex; align-items:center; gap:9px; font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.85); border:1px solid rgba(255,255,255,.4); border-radius:999px; padding:10px 18px;}
+.status::before{content:""; width:7px; height:7px; border-radius:50%; background:currentColor;}
+.status.progress{color:#3AE380; border-color:rgba(58,227,128,.5);}
+
+@media (prefers-reduced-motion:reduce){
+  .name,.reveal,.content{transition:none;}
+  .back .cur{animation:none;}
+}
+
+/* mobile: three stacked, still no scroll; no hover, so reveal is always shown */
+@media (max-width:768px){
+  .wrap{flex-direction:column;}
+  .panel{border-right:0; border-bottom:1px solid rgba(255,255,255,.12);}
+  .panel:last-child{border-bottom:0;}
+  .content{gap:14px; padding:24px; background:rgba(7,8,11,.42);}
+  /* only the title by default; tapping the card adds .open to reveal the rest */
+  .reveal{position:static; top:auto; display:none; opacity:1; transform:none; pointer-events:auto; gap:14px;}
+  .panel.open .content{background:rgba(7,8,11,.92);}
+  .panel.open .reveal{display:flex;}
+  .panel.open .eyebrow{opacity:1;}
+  .desc{font-size:14px;}
+  .panel.graft video{object-position:center center;}
+}
+</style>
+</head>
+<body>
+
+<nav role="navigation" aria-label="Main" style="background:rgba(7,8,11,.72); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);">
+  <div style="max-width:1120px; margin:0 auto; padding:22px 24px; min-height:64px; display:flex; justify-content:space-between; align-items:center;">
+    <a href="/" style="color:#fff; text-decoration:none; font:600 14px/1 'JetBrains Mono',monospace; letter-spacing:.02em;">stefan.chat<span style="display:inline-block; width:8px; height:15px; background:#3AE380; margin-left:3px; vertical-align:-2px; animation:blink 1.1s steps(1) infinite;"></span></a>
+    <div style="display:flex; gap:26px; align-items:center; font:600 12px/1 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:rgba(255,255,255,.55);">
+      <a href="/#work" style="color:inherit; text-decoration:none;">← All work</a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- NotBot -->
+  <section class="panel notbot">
+    <video src="../assets/videos/notbot.mp4" autoplay muted loop playsinline preload="metadata"></video>
+    <div class="content">
+      <span class="eyebrow">// keystroke recorder</span>
+      <h2 class="name notbot">NotBot</h2>
+      <div class="reveal">
+        <p class="desc">NotBot records your keystrokes as you write, then gives you a link so anyone can watch you type it. Real cadence, real pauses, real typos. Proof of authorship. No backend. Nothing stored, nothing to leak, nothing to maintain. The message lives entirely inside the link.</p>
+        <div class="links">
+          <a href="#" target="_blank" rel="noopener">Visit NotBot</a>
+          <a href="https://github.com/oneseventy170/NotBot" target="_blank" rel="noopener">View repo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Graft -->
+  <section class="panel graft">
+    <video src="../assets/videos/GraftVerticalVideo.mp4" autoplay muted loop playsinline preload="metadata"></video>
+
+    <div class="content">
+      <span class="eyebrow">// pull requests, for designers</span>
+      <h2 class="name graft">Graft</h2>
+      <div class="reveal">
+        <p class="desc">A designer-focused way to contribute to Git. Create branches in custom edit areas, free from technical friction like auth and routing. Editing is scoped so you can't touch core backend infrastructure. PRs are automatically annotated to smooth the handoff to development.</p>
+        <span class="status progress">In progress</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Flick -->
+  <section class="panel flick">
+    <video src="../assets/videos/flick.mp4" autoplay muted loop playsinline preload="metadata"></video>
+    <div class="content">
+      <span class="eyebrow">// homekit light switch</span>
+      <h2 class="name flick">Flick</h2>
+      <div class="reveal">
+        <p class="desc">Ever wanted your smart switches to match the style inside your home? With Flick, customize your switch style, color, wall texture, and even wallpaper. Tactile control of every room's lights, right from your phone.</p>
+        <span class="status">Coming soon</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Nudge the background videos to autoplay (muted); retry on first interaction.
+  (function () {
+    var play = function () {
+      document.querySelectorAll('video').forEach(function (v) {
+        v.muted = true;
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {});
+      });
+    };
+    setTimeout(play, 100);
+    ['pointerdown', 'touchstart', 'keydown'].forEach(function (e) {
+      window.addEventListener(e, play, { once: true, passive: true });
+    });
+
+    // Mobile: no hover, so tap a card to reveal its details (opens one at a time).
+    document.querySelectorAll('.panel').forEach(function (panel) {
+      panel.addEventListener('click', function (e) {
+        if (e.target.closest('a')) return; // let links do their thing
+        var wasOpen = panel.classList.contains('open');
+        document.querySelectorAll('.panel.open').forEach(function (p) { p.classList.remove('open'); });
+        if (!wasOpen) panel.classList.add('open');
+      });
+    });
+  })();
+</script>
+</body>
+</html>

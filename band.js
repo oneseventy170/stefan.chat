@@ -35,26 +35,29 @@
     var cols = parseInt(placeholder.getAttribute('data-cols') || '2', 10);
     var margin = parseInt(placeholder.getAttribute('data-margin') || '104', 10);
 
+    // Each metric is its own card that blends into the page — the theme's own surface and
+    // line colours (dark-on-dark, light-on-light), separated by a gap, inside the 1120px
+    // content column. No inverse block, nothing that stands out from the page.
     var outer = document.createElement('div');
-    outer.style.cssText = 'background:var(--band-bg); color:var(--band-ink); margin-top:' + margin + 'px; transition:background .35s ease;';
+    outer.id = 'sr-band';
+    outer.style.cssText = 'max-width:1120px; margin:' + margin + 'px auto 0; padding:0 24px;';
 
-    var inner = document.createElement('div');
-    inner.id = 'sr-band';
-    inner.style.cssText = 'max-width:1120px; margin:0 auto; padding:0 48px;';
+    // Editorial, no box: one grey "// impact" eyebrow, then each stat is a big serif
+    // number under a thin top rule with its description below — sitting on the page like
+    // the rest of the content, not a filled card.
+    var label = document.createElement('div');
+    label.style.cssText = "font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:28px;";
+    label.textContent = '// impact';
+    outer.appendChild(label);
 
     var grid = document.createElement('div');
-    grid.style.cssText = 'display:grid; grid-template-columns:repeat(' + cols + ',1fr); gap:1px; background:var(--band-line);';
+    grid.style.cssText = 'display:grid; grid-template-columns:repeat(' + cols + ',1fr); gap:44px;';
 
     var countEls = [];
 
     metrics.forEach(function (m) {
       var cell = document.createElement('div');
-      cell.style.cssText = 'background:var(--band-bg); padding:40px 40px 48px; transition:background .35s ease;';
-
-      var lbl = document.createElement('div');
-      lbl.style.cssText = "font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:24px;";
-      lbl.textContent = '// impact';
-      cell.appendChild(lbl);
+      cell.style.cssText = 'color:var(--ink); border-top:1px solid var(--line); padding:26px 0 0; transition:border-color .35s ease;';
 
       var row = document.createElement('div');
       row.style.cssText = 'display:flex; align-items:baseline;';
@@ -73,7 +76,7 @@
 
       if (m.suffix) {
         var suf = document.createElement('span');
-        suf.style.cssText = MF + ' color:var(--band-accent);';
+        suf.style.cssText = MF + ' color:var(--accent);';
         suf.textContent = m.suffix;
         row.appendChild(suf);
       }
@@ -82,14 +85,14 @@
 
       if (m.heading) {
         var h = document.createElement('div');
-        h.style.cssText = "font:600 15px 'Du Nord'; color:var(--band-ink); margin:18px 0 6px;";
+        h.style.cssText = "font:600 15px 'Du Nord'; color:var(--ink); margin:20px 0 8px;";
         h.textContent = m.heading;
         cell.appendChild(h);
       }
 
       if (m.body) {
         var b = document.createElement('div');
-        b.style.cssText = "font:400 15px/1.6 'Du Nord'; color:var(--band-ink-2); max-width:42ch;" + (m.heading ? '' : ' margin-top:16px;');
+        b.style.cssText = "font:400 15px/1.6 'Du Nord'; color:var(--ink-3); max-width:40ch;" + (m.heading ? '' : ' margin-top:16px;');
         b.textContent = m.body;
         cell.appendChild(b);
       }
@@ -98,8 +101,7 @@
       countEls.push({ el: num, metric: m });
     });
 
-    inner.appendChild(grid);
-    outer.appendChild(inner);
+    outer.appendChild(grid);
     placeholder.replaceWith(outer);
 
     if ('IntersectionObserver' in window) {
