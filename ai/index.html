@@ -65,19 +65,25 @@ a{color:inherit; text-decoration:none;}
   .back .cur{animation:none;}
 }
 
-/* mobile: three stacked, still no scroll; no hover, so reveal is always shown */
+/* narrow screens: stack the three panels (layout only — width based) */
 @media (max-width:768px){
   .wrap{flex-direction:column;}
   .panel{border-right:0; border-bottom:1px solid rgba(255,255,255,.12);}
   .panel:last-child{border-bottom:0;}
-  .content{gap:14px; padding:24px; background:rgba(7,8,11,.42);}
-  /* only the title by default; tapping the card adds .open to reveal the rest */
-  .reveal{position:static; top:auto; display:none; opacity:1; transform:none; pointer-events:auto; gap:14px;}
+  .content{gap:14px; padding:24px 14px; background:rgba(7,8,11,.42);}
+  /* no eyebrow tag on mobile */
+  .eyebrow{display:none;}
+  .desc{font-size:14px;}
+  .panel.graft video{object-position:center center;}
+}
+
+/* touch devices only: no hover, so tap a card to reveal its details.
+   Gated on hover, not width, so a resized desktop window keeps hover. */
+@media (hover:none){
+  .reveal{position:static; top:auto; padding:0; display:none; opacity:1; transform:none; pointer-events:auto; gap:14px;}
   .panel.open .content{background:rgba(7,8,11,.92);}
   .panel.open .reveal{display:flex;}
   .panel.open .eyebrow{opacity:1;}
-  .desc{font-size:14px;}
-  .panel.graft video{object-position:center center;}
 }
 </style>
 </head>
