@@ -63,14 +63,51 @@ a,button,[role="button"]{cursor:pointer;}
   .pcard .ptag{opacity:1 !important; transform:none !important;}
   .pcard .preveal>div:first-child{display:none !important;}
   .pcard .viewbtn{margin-top:20px !important;}
+  /* When the buttons sit in a row (AI cards), put that top gap on the ROW, not the individual
+     button — otherwise the button's own margin inflates the row and stretches "View repo" tall. */
+  .pcard .card-actions{margin-top:20px !important;}
+  .pcard .card-actions .viewbtn{margin-top:0 !important;}
 }
 /* AI CTA: a rectangular bordered button matching the site's cards — on hover it uses the
    signature card interaction (lift + hard accent offset shadow). */
 .ai-cta{display:inline-flex; align-items:center; margin-top:26px; padding:16px 24px; border:1px solid var(--line); background:var(--surface); text-decoration:none; transition:transform .3s ease, box-shadow .3s ease;}
 .ai-cta:hover{transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);}
 .ai-cta .lbl{font:600 15px/1 'Du Nord',sans-serif; letter-spacing:.01em; color:var(--ink);}
-.viewbtn{color:var(--ink); transition:background .25s ease, color .25s ease, border-color .25s ease;}
+/* Nav links: muted by default, snap to full black/white + underline on hover (per theme).
+   !important because each link carries inline color:inherit / text-decoration:none. */
+#srnav a{transition:color .2s ease;}
+#srnav a:hover{color:#000 !important; text-decoration:underline !important; text-underline-offset:4px; text-decoration-thickness:1px;}
+:root[data-theme="dark"] #srnav a:hover{color:#fff !important;}
+/* --- Mobile nav: hamburger + full-screen menu (shown ≤768px) --- */
+.nav-toggle{display:none; cursor:pointer; background:transparent; border:0; padding:6px; margin:-6px 0 -6px 4px; color:var(--ink); line-height:0;}
+.nav-toggle-icon{position:relative; display:block; width:22px; height:2px; background:currentColor; border-radius:2px; transition:background .2s ease;}
+.nav-toggle-icon::before,.nav-toggle-icon::after{content:""; position:absolute; left:0; width:22px; height:2px; background:currentColor; border-radius:2px; transition:transform .3s ease;}
+.nav-toggle-icon::before{top:-7px;} .nav-toggle-icon::after{top:7px;}
+.nav-toggle[aria-expanded="true"] .nav-toggle-icon{background:transparent;}
+.nav-toggle[aria-expanded="true"] .nav-toggle-icon::before{transform:translateY(7px) rotate(45deg);}
+.nav-toggle[aria-expanded="true"] .nav-toggle-icon::after{transform:translateY(-7px) rotate(-45deg);}
+#mobile-menu{position:fixed; inset:0; z-index:19; background:var(--bg); display:none; flex-direction:column; justify-content:center; align-items:flex-start; gap:2px; padding:0 24px; opacity:0; visibility:hidden; transform:translateY(-8px); transition:opacity .35s cubic-bezier(.2,.7,.2,1), transform .35s cubic-bezier(.2,.7,.2,1), visibility .35s;}
+#mobile-menu.open{opacity:1; visibility:visible; transform:none;}
+#mobile-menu a{font:600 28px/1.2 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.04em; color:var(--ink); text-decoration:none; padding:13px 0; transition:color .2s ease;}
+#mobile-menu a:hover,#mobile-menu a:active{color:var(--accent);}
+@media (max-width:768px){
+  #srnav .nav-link{display:none !important;}
+  .nav-toggle{display:inline-flex; align-items:center;}
+  #mobile-menu{display:flex;}
+}
+/* Card hover: lift + green offset shadow (the signature interaction; the old style-hover attr the
+   framework consumed only worked on the anchor cards, so this restores it for the div cards too). */
+.pcard:hover{transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);}
+.viewbtn{color:var(--ink); text-decoration:none; transition:background .25s ease, color .25s ease, border-color .25s ease;}
 .pcard:hover .viewbtn{background:var(--accent); color:var(--on-accent); border-color:var(--accent);}
+/* While the repo button is hovered, drop "View project" back to its default (un-highlighted) look. */
+.pcard:has(.repobtn:hover) .viewbtn{background:transparent; color:var(--ink); border-color:var(--line);}
+/* "View project" stretches over the whole card so it stays clickable to the project page. */
+.viewbtn-link::after{content:""; position:absolute; inset:0; z-index:1;}
+/* "View repo": independent link layered above the stretched link. Highlights ONLY on its own
+   hover — hovering elsewhere on the card leaves it untouched (no .pcard:hover rule targets it). */
+.repobtn{position:relative; z-index:2; display:inline-flex; align-items:center; gap:9px; font:600 13px/1 'Du Nord'; color:var(--ink); text-decoration:none; border:1px solid var(--line); padding:12px 18px; transition:background .25s ease, color .25s ease, border-color .25s ease;}
+.repobtn:hover{background:var(--accent); color:var(--on-accent); border-color:var(--accent);}
 .pmedia video, .pmedia img{transition:transform .7s cubic-bezier(.2,.7,.2,1), filter .45s ease;}
 .pcard:hover .pmedia video, .pcard:hover .pmedia img{transform:scale(1.06); filter:grayscale(.15) brightness(.4);}
 .pmedia .preveal{opacity:0; transition:opacity .4s ease; pointer-events:none;}
@@ -121,15 +158,22 @@ a,button,[role="button"]{cursor:pointer;}
 }
 /* Sticky stacking deck: hero is the base card, project cards stack on top on scroll. */
 #srstack,#ai-stack{position:relative;}
-/* Project cards pin near the top in natural position; JS adds a per-card translateY peek + scale. */
-.stack-item{position:sticky;top:88px;z-index:calc(var(--si,0) + 1);}
+/* Project cards pin vertically centered in the viewport (JS mirrors this in STICKY_TOP), so the
+   stack forms mid-page rather than up under the nav. Clamped to 88px so it never hides behind it.
+   --card-h is the equalized card height, set by JS. */
+.stack-item{position:sticky;top:max(88px, calc((100vh - var(--card-h, 460px)) / 2));z-index:calc(var(--si,0) + 1);}
 .stack-item:not(:last-child){margin-bottom:9vh;}
 /* Hero→first-card gap: tuned so the whitespace below the hero matches the gap above it. */
-#srstack > .stack-item:first-child{margin-bottom:11vh;}
-.stack-inner{transform-origin:center top;will-change:transform;}
+/* The hero is NOT a stacking card — keep it up near the nav (original 88px pin) so it sits high in
+   the space and simply fades out from the top as the first project card rises into the center. */
+#srstack > .stack-item:first-child{margin-bottom:18vh;top:64px;}
+.stack-inner{transform-origin:center top;will-change:transform;position:relative;}
 /* Opaque surface so each card fully covers the one behind it (JS equalizes heights). */
 .stack-card{background:var(--bg);padding-bottom:20px;}
-.stack-label{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 22px;}
+/* The label sits absolutely ABOVE the first card's cover (out of flow), so that cover lands on
+   the same even peek grid as every other card instead of being pushed down by the label's height.
+   It lives inside the transformed .stack-inner, so it still rides + scales with the first card. */
+.stack-label{position:absolute;left:0;right:0;bottom:100%;display:flex;justify-content:space-between;align-items:baseline;margin:0 0 14px;}
 @media (prefers-reduced-motion: reduce){
   .stack-item{position:static;}
   .stack-card{min-height:0;}
@@ -145,19 +189,28 @@ a,button,[role="button"]{cursor:pointer;}
     <div style="max-width:1120px; margin:0 auto; padding:22px 24px; display:flex; justify-content:space-between; align-items:center;">
       <div style="font:600 14px/1 'JetBrains Mono',monospace; letter-spacing:.02em;">stefan.chat<span style="display:inline-block; width:8px; height:15px; background:var(--accent); margin-left:3px; vertical-align:-2px; animation:srblink 1.1s steps(1) infinite;"></span></div>
       <div style="display:flex; gap:26px; align-items:center; font:600 12px/1 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--muted);">
-        <a href="#work" style="color:inherit; text-decoration:none;">Work</a>
-        <a href="#about" style="color:inherit; text-decoration:none;">About</a>
+        <a href="#work" class="nav-link" style="color:inherit; text-decoration:none;">Work</a>
+        <a href="#ai-stack" class="nav-link" style="color:inherit; text-decoration:none;">AI Projects</a>
+        <a href="#about" class="nav-link" style="color:inherit; text-decoration:none;">About</a>
         <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" title="Toggle theme" style="cursor:pointer; display:inline-flex; align-items:center; gap:8px; background:transparent; border:0; padding:0;">
           <span style="display:inline-block; width:38px; height:20px; border:1px solid var(--line); border-radius:999px; position:relative; background:var(--surface-2); transition:background .3s ease;">
             <span style="position:absolute; top:2px; left:{{ knobLeft }}; width:14px; height:14px; border-radius:50%; background:var(--accent); transition:left .3s ease;"></span>
           </span>
         </button>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span class="nav-toggle-icon"></span></button>
       </div>
     </div>
   </nav>
 
+  <!-- mobile menu: full-screen overlay opened by the nav hamburger (≤768px) -->
+  <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu">
+    <a href="#work">Work</a>
+    <a href="#ai-stack">AI Projects</a>
+    <a href="#about">About</a>
+  </div>
+
   <!-- hero + projects: sticky stacking deck (natural position; cards overlay the hero) -->
-  <div id="srstack" style="max-width:1120px; margin:0 auto; padding:0 24px 9vh;">
+  <div id="srstack" style="max-width:1120px; margin:0 auto; padding:0 24px 0;">
     <!-- card 0: hero (gets overlaid by the project cards) -->
     <div class="stack-item" style="--si:0;"><div class="stack-inner">
     <div style="display:grid; grid-template-columns:1fr 380px; gap:56px; align-items:center; padding:9vh 0 0;">
@@ -165,7 +218,6 @@ a,button,[role="button"]{cursor:pointer;}
         <div class="sr-hu sr-split" style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:30px; animation-delay:.05s">// SR. PRODUCT DESIGNER (7+ YRS)</div>
         <h1 class="sr-hu sr-split" style="font-family: 'Saol Text',serif; font-style: italic; font-weight: 400; font-size: 72px; line-height: 1; letter-spacing: -.01em; margin: 0 0 20px; animation-delay:.2s">Hi, I'm Stefan.</h1>
         <p class="sr-hu sr-split" style="font: 400 21px/1.55 'Du Nord'; color: var(--ink-2); max-width: 50ch; margin: 0; animation-delay:.38s">I'm a designer who learns, iterates, and polishes the final 5%.</p>
-        <a href="/ai/" class="sr-hu ai-cta"><span class="lbl">Explore my AI projects</span></a>
       </div>
       <div class="mephoto sr-hi" style="position:relative; border:1px solid var(--line); background:var(--media-bg); aspect-ratio:1/1; overflow:hidden; cursor:crosshair;">
         <picture><source srcset="assets/images/about-photos/stefan-hero.webp" type="image/webp"><img fetchpriority="high" src="assets/images/about-photos/stefan-hero.png" alt="Stefan Rhoades" style="width:100%; height:100%; object-fit:cover; display:block;"></picture>
@@ -243,68 +295,56 @@ a,button,[role="button"]{cursor:pointer;}
   <!-- achievement bar (full-bleed) -->
   <div class="sr-metric-band" data-cols="3" data-margin="0"><script type="application/json">[{"value":150,"suffix":"K","body":"new items saved in 6 months, 1Password’s most successful launch."},{"prefix":"+","value":21,"suffix":"%","body":"jump in onboarding completion, 52% to 73%, at 1Password."},{"prefix":"+","value":9.4,"decimal":true,"suffix":"%","body":"more hotspots deployed. 12,000 deployed in 3 months, post Helium World launch."}]</script></div>
 
-  <!-- built with AI: second sticky stacking deck (same effect as selected work) -->
-  <div id="ai-stack" style="position:relative; max-width:1120px; margin:0 auto; padding:10.5vh 24px 9vh;">
+  <!-- selected work (copy): second sticky stacking deck (same effect as the first) -->
+  <div id="ai-stack" style="position:relative; max-width:1120px; margin:0 auto; padding:18vh 24px 0;">
 
-    <!-- card 1: NotBot (carries the section label) -->
+    <!-- card 1: project 1 (with built-with-ai label) — media right -->
     <div class="stack-item" style="--si:1;"><div class="stack-inner">
     <div class="stack-label">
-      <span style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);">// built with ai</span>
-      <span style="font:600 12px/1 'JetBrains Mono',monospace; color:var(--muted);">03 PROJECTS</span>
+      <span style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);">// Built with AI</span>
+      <span style="font:600 12px/1 'JetBrains Mono',monospace; color:var(--muted);">02 PROJECTS</span>
     </div>
     <div class="stack-card">
-      <div class="pcard aicard" style="border:1px solid var(--line); overflow:hidden; background:var(--surface);">
-        <div style="display:grid; grid-template-columns:1fr 2.4fr;">
-          <div class="pmedia" style="position:relative; aspect-ratio:1/1; overflow:hidden; background:var(--media-bg); border-right:1px solid var(--line);"><video src="assets/videos/notbot.mp4" preload="none" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Keystroke capture</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Proof of authorship</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Zero backend</div></div></div>
-          <div style="padding:34px 36px; display:flex; flex-direction:column; justify-content:center;">
-            <div style="font:600 12px 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:14px;">Keystroke recorder</div>
-            <h3 style="font:700 30px/1.1 'Du Nord'; letter-spacing:-.02em; margin:0 0 14px;">NotBot</h3>
-            <p style="font:400 16px/1.55 'Du Nord'; color:var(--ink-3); margin:0 0 24px;">Records your keystrokes as you write, then gives you a link so anyone can watch you type it back. Proof of authorship, with no backend and nothing stored.</p>
-            <div style="display:flex; gap:12px; flex-wrap:wrap; align-self:flex-start;">
-              <a href="#" class="aibtn">Visit</a>
-              <a href="https://github.com/oneseventy170/NotBot" target="_blank" rel="noopener" class="aibtn">View repo</a>
-            </div>
+    <div class="pcard" style="position:relative; display:block; border:1px solid var(--line); border-radius:0; overflow:hidden; background:var(--surface); transition:transform .3s ease, box-shadow .3s ease;">
+      <div style="display:grid; grid-template-columns:1fr 1.3fr;">
+        <div style="padding:34px 36px; display:flex; flex-direction:column; justify-content:center; border-right:1px solid var(--line);">
+          <div style="font:600 12px 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:14px;">01 / 2026</div>
+          <h3 style="font:700 30px/1.1 'Du Nord'; letter-spacing:-.02em; margin:0 0 14px;">NotBot</h3>
+          <p style="font:400 16px/1.55 'Du Nord'; color:var(--ink-3); margin:0 0 24px;">Records your keystrokes as you write, then gives you a link so anyone can watch you type it back. Proof of authorship, with no backend and nothing stored.</p>
+          <div class="card-actions" style="display:flex; gap:12px; align-items:center; align-self:flex-start;">
+            <a href="https://notbot.stefan.chat/" target="_blank" rel="noopener" class="viewbtn viewbtn-link" style="display:inline-flex; align-items:center; gap:9px; font:600 13px/1 'Du Nord'; border:1px solid var(--line); padding:12px 18px;">View project</a>
+            <a href="https://github.com/oneseventy170/NotBot" target="_blank" rel="noopener" class="repobtn">View repo</a>
+          </div>
+        </div>
+        <div class="pmedia" style="position:relative; aspect-ratio:16/11; overflow:hidden; background:var(--media-bg);"><video src="assets/videos/notbot.mp4" preload="none" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Keystroke capture</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Proof of authorship</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Zero backend</div></div></div>
+      </div>
+    </div>
+    </div>
+    </div></div>
+
+    <!-- card 2: project 2 — media left -->
+    <div class="stack-item" style="--si:2;"><div class="stack-inner stack-card">
+    <div class="pcard" style="position:relative; display:block; border:1px solid var(--line); border-radius:0; overflow:hidden; background:var(--surface); transition:transform .3s ease, box-shadow .3s ease;">
+      <div style="display:grid; grid-template-columns:1.3fr 1fr;">
+        <div class="pmedia" style="position:relative; aspect-ratio:16/11; overflow:hidden; background:var(--media-bg); border-right:1px solid var(--line);"><img src="assets/images/projects/devsignCover.png" alt="Devsigner" style="position:absolute; top:16px; left:16px; width:100%; height:100%; object-fit:cover; object-position:top left; display:block;"><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Git for designers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Scoped editing</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Annotated PRs</div></div></div>
+        <div style="padding:34px 36px; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font:600 12px 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:14px;">02 / 2026</div>
+          <h3 style="font:700 30px/1.1 'Du Nord'; letter-spacing:-.02em; margin:0 0 14px;">Devsigner <span style="opacity:.5;">in Alpha</span></h3>
+          <p style="font:400 16px/1.55 'Du Nord'; color:var(--ink-3); margin:0 0 24px;">A designer-focused way to contribute to Git. Branch and edit in scoped areas with no auth or routing, then ship PRs that arrive pre-annotated for dev.</p>
+          <div class="card-actions" style="display:flex; gap:12px; align-items:center; align-self:flex-start;">
+            <a href="http://devsigner.stefan.chat/" target="_blank" rel="noopener" class="viewbtn viewbtn-link" style="display:inline-flex; align-items:center; gap:9px; font:600 13px/1 'Du Nord'; border:1px solid var(--line); padding:12px 18px;">View project</a>
+            <a href="https://github.com/oneseventy170/Devsigner" target="_blank" rel="noopener" class="repobtn">View repo</a>
           </div>
         </div>
       </div>
     </div>
-    </div></div>
-
-    <!-- card 2: Graft -->
-    <div class="stack-item" style="--si:2;"><div class="stack-inner stack-card">
-      <div class="pcard aicard" style="border:1px solid var(--line); overflow:hidden; background:var(--surface);">
-        <div style="display:grid; grid-template-columns:2.4fr 1fr;">
-          <div style="padding:34px 36px; display:flex; flex-direction:column; justify-content:center; border-right:1px solid var(--line);">
-            <div style="font:600 12px 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:14px;">Pull requests, for designers</div>
-            <h3 style="font:700 30px/1.1 'Du Nord'; letter-spacing:-.02em; margin:0 0 14px;">Graft</h3>
-            <p style="font:400 16px/1.55 'Du Nord'; color:var(--ink-3); margin:0 0 24px;">A designer-focused way to contribute to Git. Branch and edit in scoped areas with no auth or routing, then ship PRs that arrive pre-annotated for dev.</p>
-            <span class="pill progress">In progress</span>
-          </div>
-          <div class="pmedia" style="position:relative; aspect-ratio:1/1; overflow:hidden; background:var(--media-bg);"><video src="assets/videos/GraftVerticalVideo.mp4" preload="none" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Git for designers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Scoped editing</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Annotated PRs</div></div></div>
-        </div>
-      </div>
-    </div></div>
-
-    <!-- card 3: Flick -->
-    <div class="stack-item" style="--si:3;"><div class="stack-inner stack-card">
-      <div class="pcard aicard" style="border:1px solid var(--line); overflow:hidden; background:var(--surface);">
-        <div style="display:grid; grid-template-columns:1fr 2.4fr;">
-          <div class="pmedia" style="position:relative; aspect-ratio:1/1; overflow:hidden; background:var(--media-bg); border-right:1px solid var(--line);"><video src="assets/videos/flick.mp4" preload="none" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">HomeKit</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Custom switches</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Room-by-room</div></div></div>
-          <div style="padding:34px 36px; display:flex; flex-direction:column; justify-content:center;">
-            <div style="font:600 12px 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:14px;">HomeKit light switch</div>
-            <h3 style="font:700 30px/1.1 'Du Nord'; letter-spacing:-.02em; margin:0 0 14px;">Flick</h3>
-            <p style="font:400 16px/1.55 'Du Nord'; color:var(--ink-3); margin:0 0 24px;">Make your smart switches match your home. Customize style, color, wall texture, even wallpaper. Tactile control of every room, from your phone.</p>
-            <span class="pill">Coming soon</span>
-          </div>
-        </div>
-      </div>
     </div></div>
 
     <div class="stack-spacer" aria-hidden="true" style="height:1vh;"></div>
   </div>
 
   <!-- about -->
-  <div id="about" style="max-width:1120px; margin:0 auto; padding:10.5vh 24px;">
+  <div id="about" style="max-width:1120px; margin:0 auto; padding:0 24px 18vh;">
     <div style="display:flex; justify-content:space-between; align-items:baseline; margin:0 0 28px;">
       <span style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);">// about</span>
     </div>
@@ -369,6 +409,26 @@ class Component extends DCLogic {
       });
     }, { passive: true });
 
+    // --- Mobile nav: hamburger opens a full-screen menu; close on link tap or Escape ---
+    (function () {
+      var toggle = document.querySelector('.nav-toggle');
+      var menu = document.getElementById('mobile-menu');
+      if (!toggle || !menu) return;
+      var setOpen = function (open) {
+        menu.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        document.body.style.overflow = open ? 'hidden' : '';
+        var nav = document.getElementById('srnav');
+        if (open && nav) nav.style.transform = 'translateY(0)'; // keep the bar (and close button) in view
+      };
+      toggle.addEventListener('click', function () { setOpen(!menu.classList.contains('open')); });
+      menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setOpen(false); }); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+      // If the viewport grows past the breakpoint while open, reset so desktop isn't left locked.
+      window.addEventListener('resize', function () { if (window.innerWidth > 768) setOpen(false); }, { passive: true });
+    })();
+
     // --- On-load hero intro (no scroll triggers; fail-open via html.sr-anim) ---
     // Hero text (eyebrow + title + body) fades up together, then the photo.
     document.documentElement.classList.add('sr-anim');
@@ -385,9 +445,9 @@ class Component extends DCLogic {
     });
     var introEls = [].slice.call(document.querySelectorAll('.sr-hu, .sr-hi'));
     // The headline leads; the eyebrow and paragraph start together as its last word lands.
-    // The AI button, photo, and first project card follow.
-    // Order: eyebrow, h1, p, ai-cta, photo, first card.
-    var delays = [1250, 200, 1250, 1500, 1550, 1550];
+    // The photo and first project card follow.
+    // Order: eyebrow, h1, p, photo, first card.
+    var delays = [1250, 200, 1250, 1550, 1550];
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         introEls.forEach(function (el, i) {
@@ -418,7 +478,7 @@ class Component extends DCLogic {
       var covers = [].slice.call(stack.querySelectorAll('.stack-card'));
       var n = inners.length;
       var PEEK = 26; // px each card sits below the one before, so its top edge peeks out
-      var STICKY_TOP = 88; // matches .stack-item top in CSS
+      var STICKY_TOP = 88; // recomputed in sizeStack to the centered pin line (matches .stack-item top)
       // Size the opaque covers to at least the hero height so each fully covers the hero
       // (and the card behind it). The label sits outside the cover, so the hero shows
       // through behind it. inners[0] is the hero (no cover) → no runaway. Mobile uses the
@@ -446,15 +506,33 @@ class Component extends DCLogic {
           }
         });
         stack.style.setProperty('--card-h', target + 'px');
+        // Pin line = vertically centered card, clamped to 88px (matches the CSS `top`). This is
+        // where each card sticks, so the whole stack forms mid-viewport instead of near the top.
+        STICKY_TOP = Math.max(88, (window.innerHeight - target) / 2);
         // The front card's cover is padded taller than its content to hide the hero behind it.
         // Once the deck has scrolled past, that page-coloured filler is exposed below the last
-        // card. Pull the following section up over it (it paints on top via z-index, below) so
-        // the gap to the impact row matches the rest of the page instead of a tall void.
-        var lastCard = items[items.length - 1].querySelector('.pcard');
+        // card. Pull the following section up over it, but leave a uniform SECTION_GAP so every
+        // deck→section boundary (work→impact, ai→about) has the same breathing room. Decks have
+        // padding-bottom:0, so this margin alone defines the gap after each deck.
+        // Uniform 18vh breathing room after every deck (work→impact and ai→about alike).
+        var SECTION_GAP = Math.round(window.innerHeight * 0.18);
+        var lastItem = items[items.length - 1];
+        var lastCard = lastItem.querySelector('.pcard');
         var after = stack.nextElementSibling;
         if (lastCard && after) {
-          var filler = Math.round(items[items.length - 1].offsetHeight - lastCard.offsetHeight);
-          after.style.marginTop = filler > 0 ? (-filler + 'px') : '';
+          // Everything between the last card's visible bottom and the deck's box bottom is empty
+          // page colour: the cover's extra height, the last item's own margin-bottom, and any
+          // trailing spacers. Subtract ALL of it so only SECTION_GAP remains after the deck.
+          var fullFiller = lastItem.offsetHeight - lastCard.offsetHeight
+            + (parseFloat(getComputedStyle(lastItem).marginBottom) || 0);
+          for (var sib = lastItem.nextElementSibling; sib; sib = sib.nextElementSibling) {
+            fullFiller += sib.offsetHeight + (parseFloat(getComputedStyle(sib).marginBottom) || 0);
+          }
+          // The front card's inner is translateY'd DOWN by (n-1)*PEEK, so its VISIBLE bottom sits
+          // that much lower than its layout box and eats into the gap. Subtract it so the visible
+          // gap (what the eye sees) is the one that equals SECTION_GAP.
+          fullFiller -= (n - 1) * PEEK;
+          after.style.marginTop = Math.round(SECTION_GAP - fullFiller) + 'px';
           // Paint the section on top of the deck so it covers the exposed filler rather than
           // the (higher-z) sticky card filler covering it.
           after.style.position = 'relative';
