@@ -40,8 +40,8 @@ a,button,[role="button"]{cursor:pointer;}
 @keyframes srblink{0%,48%{opacity:1}49%,100%{opacity:0}}
 @media (max-width:768px){
   div[style*="grid-template-columns"]{grid-template-columns:1fr !important;}
-  #srstack,#sr-band,#about{padding-left:24px !important; padding-right:24px !important;}
-  #srstack{padding-bottom:9vh !important;}
+  #srstack,#sr-band,#about,#ai-stack{padding-left:24px !important; padding-right:24px !important;}
+  #srstack,#ai-stack{padding-bottom:9vh !important;}
   /* Single-column cards: keep the text above the image regardless of source order. */
   .pcard .pmedia{order:2; border-right:0 !important;}
   h1{font-size:40px !important; line-height:1.06 !important;}
@@ -80,6 +80,15 @@ a,button,[role="button"]{cursor:pointer;}
 .pcard:hover .pmedia .ptag:nth-child(2){transition-delay:.06s}
 .pcard:hover .pmedia .ptag:nth-child(3){transition-delay:.13s}
 .pcard:hover .pmedia .ptag:nth-child(4){transition-delay:.20s}
+/* AI projects: reuse the .pcard media hover; add the card lift + a per-button hover
+   (so a card with two buttons doesn't fill both at once) + a status pill. */
+.aicard{transition:transform .3s ease, box-shadow .3s ease;}
+.aicard:hover{transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);}
+.aibtn{display:inline-flex; align-items:center; gap:9px; font:600 13px/1 'Du Nord'; color:var(--ink); border:1px solid var(--line); padding:12px 18px; text-decoration:none; transition:background .25s ease, color .25s ease, border-color .25s ease;}
+.aibtn:hover{background:var(--accent); color:var(--on-accent); border-color:var(--accent);}
+.pill{align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:11px 18px;}
+.pill::before{content:""; width:7px; height:7px; border-radius:50%; background:currentColor;}
+.pill.progress{color:var(--accent); border-color:var(--accent);}
 .mephoto img{transition:transform .7s cubic-bezier(.2,.7,.2,1), filter .45s ease;}
 .mephoto:hover img{transform:scale(1.05); filter:grayscale(.25) brightness(.42);}
 .mephoto .reveal{opacity:0; transition:opacity .4s ease; pointer-events:none;}
@@ -111,7 +120,7 @@ a,button,[role="button"]{cursor:pointer;}
   .sr-anim .sr-split .sr-w{opacity:1;filter:none;transform:none;transition:none;}
 }
 /* Sticky stacking deck: hero is the base card, project cards stack on top on scroll. */
-#srstack{position:relative;}
+#srstack,#ai-stack{position:relative;}
 /* Project cards pin near the top in natural position; JS adds a per-card translateY peek + scale. */
 .stack-item{position:sticky;top:88px;z-index:calc(var(--si,0) + 1);}
 .stack-item:not(:last-child){margin-bottom:9vh;}
@@ -234,6 +243,66 @@ a,button,[role="button"]{cursor:pointer;}
   <!-- achievement bar (full-bleed) -->
   <div class="sr-metric-band" data-cols="3" data-margin="0"><script type="application/json">[{"value":150,"suffix":"K","body":"new items saved in 6 months, 1Password’s most successful launch."},{"prefix":"+","value":21,"suffix":"%","body":"jump in onboarding completion, 52% to 73%, at 1Password."},{"prefix":"+","value":9.4,"decimal":true,"suffix":"%","body":"more hotspots deployed. 12,000 deployed in 3 months, post Helium World launch."}]</script></div>
 
+  <!-- built with AI: second sticky stacking deck (same effect as selected work) -->
+  <div id="ai-stack" style="position:relative; max-width:1120px; margin:0 auto; padding:10.5vh 24px 9vh;">
+
+    <!-- card 1: NotBot (carries the section label) -->
+    <div class="stack-item" style="--si:1;"><div class="stack-inner">
+    <div class="stack-label">
+      <span style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);">// built with ai</span>
+      <span style="font:600 12px/1 'JetBrains Mono',monospace; color:var(--muted);">03 PROJECTS</span>
+    </div>
+    <div class="stack-card">
+      <div class="pcard aicard" style="border:1px solid var(--line); overflow:hidden; background:var(--surface);">
+        <div style="display:grid; grid-template-columns:1fr 2.4fr;">
+          <div class="pmedia" style="position:relative; aspect-ratio:1/1; overflow:hidden; background:var(--media-bg); border-right:1px solid var(--line);"><video src="assets/videos/notbot.mp4" preload="none" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Keystroke capture</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Proof of authorship</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Zero backend</div></div></div>
+          <div style="padding:34px 36px; display:flex; flex-direction:column; justify-content:center;">
+            <div style="font:600 12px 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:14px;">Keystroke recorder</div>
+            <h3 style="font:700 30px/1.1 'Du Nord'; letter-spacing:-.02em; margin:0 0 14px;">NotBot</h3>
+            <p style="font:400 16px/1.55 'Du Nord'; color:var(--ink-3); margin:0 0 24px;">Records your keystrokes as you write, then gives you a link so anyone can watch you type it back. Proof of authorship, with no backend and nothing stored.</p>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; align-self:flex-start;">
+              <a href="#" class="aibtn">Visit</a>
+              <a href="https://github.com/oneseventy170/NotBot" target="_blank" rel="noopener" class="aibtn">View repo</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div></div>
+
+    <!-- card 2: Graft -->
+    <div class="stack-item" style="--si:2;"><div class="stack-inner stack-card">
+      <div class="pcard aicard" style="border:1px solid var(--line); overflow:hidden; background:var(--surface);">
+        <div style="display:grid; grid-template-columns:2.4fr 1fr;">
+          <div style="padding:34px 36px; display:flex; flex-direction:column; justify-content:center; border-right:1px solid var(--line);">
+            <div style="font:600 12px 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:14px;">Pull requests, for designers</div>
+            <h3 style="font:700 30px/1.1 'Du Nord'; letter-spacing:-.02em; margin:0 0 14px;">Graft</h3>
+            <p style="font:400 16px/1.55 'Du Nord'; color:var(--ink-3); margin:0 0 24px;">A designer-focused way to contribute to Git. Branch and edit in scoped areas with no auth or routing, then ship PRs that arrive pre-annotated for dev.</p>
+            <span class="pill progress">In progress</span>
+          </div>
+          <div class="pmedia" style="position:relative; aspect-ratio:1/1; overflow:hidden; background:var(--media-bg);"><video src="assets/videos/GraftVerticalVideo.mp4" preload="none" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Git for designers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Scoped editing</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Annotated PRs</div></div></div>
+        </div>
+      </div>
+    </div></div>
+
+    <!-- card 3: Flick -->
+    <div class="stack-item" style="--si:3;"><div class="stack-inner stack-card">
+      <div class="pcard aicard" style="border:1px solid var(--line); overflow:hidden; background:var(--surface);">
+        <div style="display:grid; grid-template-columns:1fr 2.4fr;">
+          <div class="pmedia" style="position:relative; aspect-ratio:1/1; overflow:hidden; background:var(--media-bg); border-right:1px solid var(--line);"><video src="assets/videos/flick.mp4" preload="none" autoplay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%; height:100%; object-fit:cover; display:block;"></video><div class="preveal" style="position:absolute; inset:0; padding:26px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px; background:linear-gradient(180deg, rgba(8,9,11,.05), rgba(8,9,11,.74));"><div style="font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:#4ADE80; margin-bottom:6px;">// what it covers</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">HomeKit</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Custom switches</div><div class="ptag" style="align-self:flex-start; font:600 12px/1 'JetBrains Mono',monospace; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(4px); padding:7px 11px;">Room-by-room</div></div></div>
+          <div style="padding:34px 36px; display:flex; flex-direction:column; justify-content:center;">
+            <div style="font:600 12px 'JetBrains Mono',monospace; color:var(--accent); margin-bottom:14px;">HomeKit light switch</div>
+            <h3 style="font:700 30px/1.1 'Du Nord'; letter-spacing:-.02em; margin:0 0 14px;">Flick</h3>
+            <p style="font:400 16px/1.55 'Du Nord'; color:var(--ink-3); margin:0 0 24px;">Make your smart switches match your home. Customize style, color, wall texture, even wallpaper. Tactile control of every room, from your phone.</p>
+            <span class="pill">Coming soon</span>
+          </div>
+        </div>
+      </div>
+    </div></div>
+
+    <div class="stack-spacer" aria-hidden="true" style="height:1vh;"></div>
+  </div>
+
   <!-- about -->
   <div id="about" style="max-width:1120px; margin:0 auto; padding:10.5vh 24px;">
     <div style="display:flex; justify-content:space-between; align-items:baseline; margin:0 0 28px;">
@@ -339,9 +408,11 @@ class Component extends DCLogic {
     }, 3400);
 
     // --- Sticky stacking deck (scroll-driven scale; vanilla port of Framer useTransform) ---
-    var stack = document.getElementById('srstack');
+    // Generalized so multiple decks (selected work + AI projects) share one implementation.
+    // fadeFirst: fade the first inner out (hero deck, whose base card has no opaque cover).
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (stack && !reduceMotion) {
+    var initDeck = function (stack, fadeFirst) {
+      if (!stack || reduceMotion) return;
       var inners = [].slice.call(stack.querySelectorAll('.stack-inner'));
       var items = [].slice.call(stack.querySelectorAll('.stack-item'));
       var covers = [].slice.call(stack.querySelectorAll('.stack-card'));
@@ -432,7 +503,7 @@ class Component extends DCLogic {
         // peek in the gap beside the card label. Full opacity at the top (heroLocal 0), gone
         // once the first card has fully covered it (heroLocal 1) — which also covers the unpin
         // case. Opacity only — spacing/stacking stay exactly as tuned.
-        inners[0].style.opacity = heroLocal >= 1 ? '0' : (1 - heroLocal);
+        if (fadeFirst) { inners[0].style.opacity = heroLocal >= 1 ? '0' : (1 - heroLocal); }
         stackTicking = false;
       };
       var onStackScroll = function () {
@@ -461,7 +532,9 @@ class Component extends DCLogic {
       }
       sizeStack();
       updateStack();
-    }
+    };
+    initDeck(document.getElementById('srstack'), true);
+    initDeck(document.getElementById('ai-stack'), false);
 
     // Nudge card videos to autoplay (muted); retry on first user interaction + on hover
     var playAll = function () {

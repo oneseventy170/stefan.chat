@@ -70,14 +70,21 @@ a{color:inherit; text-decoration:none;}
   .wrap{flex-direction:column;}
   .panel{border-right:0; border-bottom:1px solid rgba(255,255,255,.12);}
   .panel:last-child{border-bottom:0;}
-  .content{gap:14px; padding:24px 14px; background:rgba(7,8,11,.42);}
+  .content{gap:14px; padding:24px; background:rgba(7,8,11,.42);}
   /* no eyebrow tag on mobile */
   .eyebrow{display:none;}
-  .desc{font-size:14px;}
-  /* stacked panels are tall — flow the reveal right under the title
-     instead of anchoring it 64px below center (which leaves a big gap) */
-  .reveal{position:static; top:auto; padding:0; gap:14px;}
+  /* fill the content width (24px inset from the screen edge) */
+  .desc{font-size:14px; max-width:none;}
+  /* stacked panels are tall — flow the reveal in-line under the title.
+     Hidden at rest so the title stays centered; it shifts up on reveal. */
+  .reveal{position:static; top:auto; padding:0; gap:14px; display:none;}
   .panel.graft video{object-position:center center;}
+}
+
+/* narrow + hover-capable (e.g. a resized desktop window): reveal on hover,
+   letting the centered title shift up as the details appear. */
+@media (max-width:768px) and (hover:hover){
+  .panel:hover .reveal, .panel:focus-within .reveal{display:flex;}
 }
 
 /* touch devices only: no hover, so tap a card to reveal its details.
