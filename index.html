@@ -90,8 +90,9 @@ a,button,[role="button"]{cursor:pointer;}
 #mobile-menu.open{opacity:1; visibility:visible; transform:none;}
 #mobile-menu a{font:600 28px/1.2 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.04em; color:var(--ink); text-decoration:none; padding:13px 0; transition:color .2s ease;}
 #mobile-menu a:hover,#mobile-menu a:active{color:var(--accent);}
+.nav-sep{color:var(--muted); user-select:none; opacity:.6;}
 @media (max-width:768px){
-  #srnav .nav-link{display:none !important;}
+  #srnav .nav-link,#srnav .nav-sep{display:none !important;}
   .nav-toggle{display:inline-flex; align-items:center;}
   #mobile-menu{display:flex;}
 }
@@ -189,8 +190,10 @@ a,button,[role="button"]{cursor:pointer;}
     <div style="max-width:1120px; margin:0 auto; padding:22px 24px; display:flex; justify-content:space-between; align-items:center;">
       <div style="font:600 14px/1 'JetBrains Mono',monospace; letter-spacing:.02em;">stefan.chat<span style="display:inline-block; width:8px; height:15px; background:var(--accent); margin-left:3px; vertical-align:-2px; animation:srblink 1.1s steps(1) infinite;"></span></div>
       <div style="display:flex; gap:26px; align-items:center; font:600 12px/1 'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--muted);">
-        <a href="#work" class="nav-link" style="color:inherit; text-decoration:none;">Work</a>
-        <a href="#ai-stack" class="nav-link" style="color:inherit; text-decoration:none;">AI Projects</a>
+        <a href="#work" class="nav-link" style="color:inherit; text-decoration:none;">Case Studies</a>
+        <span class="nav-sep" aria-hidden="true">/</span>
+        <a href="#ai-stack" class="nav-link" style="color:inherit; text-decoration:none;">Open Source</a>
+        <span class="nav-sep" aria-hidden="true">/</span>
         <a href="#about" class="nav-link" style="color:inherit; text-decoration:none;">About</a>
         <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" title="Toggle theme" style="cursor:pointer; display:inline-flex; align-items:center; gap:8px; background:transparent; border:0; padding:0;">
           <span style="display:inline-block; width:38px; height:20px; border:1px solid var(--line); border-radius:999px; position:relative; background:var(--surface-2); transition:background .3s ease;">
@@ -204,8 +207,8 @@ a,button,[role="button"]{cursor:pointer;}
 
   <!-- mobile menu: full-screen overlay opened by the nav hamburger (≤768px) -->
   <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu">
-    <a href="#work">Work</a>
-    <a href="#ai-stack">AI Projects</a>
+    <a href="#work">Case Studies</a>
+    <a href="#ai-stack">Open Source</a>
     <a href="#about">About</a>
   </div>
 
@@ -238,7 +241,7 @@ a,button,[role="button"]{cursor:pointer;}
     <div class="stack-item" id="work" style="--si:1;"><div class="stack-inner">
     <div class="sr-hu">
     <div class="stack-label">
-      <span style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);">// selected work</span>
+      <span style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);">// case studies</span>
       <span style="font:600 12px/1 'JetBrains Mono',monospace; color:var(--muted);">03 PROJECTS</span>
     </div>
     <div class="stack-card">
@@ -301,7 +304,7 @@ a,button,[role="button"]{cursor:pointer;}
     <!-- card 1: project 1 (with built-with-ai label) — media right -->
     <div class="stack-item" style="--si:1;"><div class="stack-inner">
     <div class="stack-label">
-      <span style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);">// Built with AI</span>
+      <span style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);">// open source</span>
       <span style="font:600 12px/1 'JetBrains Mono',monospace; color:var(--muted);">02 PROJECTS</span>
     </div>
     <div class="stack-card">
@@ -427,6 +430,39 @@ class Component extends DCLogic {
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
       // If the viewport grows past the breakpoint while open, reset so desktop isn't left locked.
       window.addEventListener('resize', function () { if (window.innerWidth > 768) setOpen(false); }, { passive: true });
+    })();
+
+    // --- Nav links: always scroll to the TOP of their section, offset below the sticky nav.
+    // Native #anchor jumps land wrong here because the targets live inside sticky/transformed
+    // decks, so compute the position from the non-sticky deck containers instead. ---
+    (function () {
+      var navH = function () { var n = document.getElementById('srnav'); return n ? n.offsetHeight : 64; };
+      var docY = function (el) { return el.getBoundingClientRect().top + window.scrollY; }; // reliable for non-sticky refs
+      var targetY = function (id) {
+        if (id === 'work') {
+          // Case studies begin AFTER the hero inside the #srstack deck.
+          var sr = document.getElementById('srstack');
+          var hero = sr && sr.querySelector('.stack-item');
+          if (!sr || !hero) return null;
+          return docY(sr) + hero.offsetHeight + (parseFloat(getComputedStyle(hero).marginBottom) || 0) - navH();
+        }
+        var el = document.getElementById(id);
+        return el ? docY(el) - navH() : null;
+      };
+      // Delegate on document so it survives the framework re-rendering the nav (which would drop
+      // per-element listeners). Capture phase so we beat any native #anchor handling.
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('#srnav a[href^="#"], #mobile-menu a[href^="#"]');
+        if (!a) return;
+        var y = targetY(a.getAttribute('href').slice(1));
+        if (y == null) return;
+        e.preventDefault();
+        // Next frame: lets the mobile menu's close handler run first (it unlocks body scroll),
+        // and re-reads the position after any resulting layout settle.
+        requestAnimationFrame(function () {
+          window.scrollTo({ top: Math.max(0, Math.round(targetY(a.getAttribute('href').slice(1)))), behavior: 'smooth' });
+        });
+      }, true);
     })();
 
     // --- On-load hero intro (no scroll triggers; fail-open via html.sr-anim) ---
