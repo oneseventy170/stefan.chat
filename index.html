@@ -61,6 +61,10 @@ a,button,[role="button"]{cursor:pointer;}
   #sr-footer{flex-direction:column !important; align-items:flex-start !important; gap:12px !important; padding:24px !important;}
   /* Mobile has no hover, so keep the "what it covers" tag overlay hidden (was forced visible). */
   .pcard .preveal{opacity:0 !important;}
+  /* Same for the hero photo: no "off the clock" reveal on touch, keep the location tag put. */
+  .mephoto:hover img{transform:none !important; filter:none !important;}
+  .mephoto:hover .reveal{opacity:0 !important;}
+  .mephoto:hover .daytag{opacity:1 !important; transform:none !important;}
   .pcard .viewbtn{margin-top:20px !important;}
   /* When the buttons sit in a row (AI cards), put that top gap on the ROW, not the individual
      button — otherwise the button's own margin inflates the row and stretches "View repo" tall. */

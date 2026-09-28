@@ -42,11 +42,11 @@ a,button,[role="button"]{cursor:pointer;}
 .photo img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .7s cubic-bezier(.2,.7,.2,1);}
 .photo:hover img{transform:scale(1.05);}
 /* Experience rows: dates | company | role under thin rules; the current role's dates read in green. */
-.xp-row{display:grid; grid-template-columns:180px 1fr auto; gap:32px; align-items:baseline; padding:26px 0; border-top:1px solid var(--line);}
+.xp-row{display:grid; grid-template-columns:180px 1fr 120px 170px; gap:32px; align-items:baseline; padding:26px 0; border-top:1px solid var(--line);}
 .xp-row:last-child{border-bottom:1px solid var(--line);}
 .xp-when{font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.06em; text-transform:uppercase; color:var(--muted);}
 .xp-co{font:700 24px/1.1 'Du Nord'; letter-spacing:-.02em;}
-.xp-type{font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-left:14px; vertical-align:3px;}
+.xp-type{justify-self:start; font:600 11px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); border:1px solid var(--line); padding:7px 10px;}
 .xp-role{font:400 15px/1.4 'Du Nord'; color:var(--ink-3); text-align:right;}
 .xp-now .xp-when{color:var(--accent);}
 /* Nav links: muted by default, snap to full black/white + underline on hover (per theme). */
@@ -79,6 +79,7 @@ a,button,[role="button"]{cursor:pointer;}
   .xp-row{grid-template-columns:1fr; gap:8px; padding:20px 0;}
   .xp-role{text-align:left;}
   .xp-co{font-size:22px;}
+  .xp-type{margin:2px 0;}
   #sr-mail{display:block;}
   #sr-footer{flex-direction:column !important; align-items:flex-start !important; gap:12px !important; padding:24px !important;}
 }
@@ -142,10 +143,10 @@ a,button,[role="button"]{cursor:pointer;}
     <div style="margin-top:104px;">
       <div style="font:600 12px/1 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:28px;">// experience</div>
       <div class="xp">
-        <div class="xp-row xp-now"><div class="xp-when">2026 — now</div><div class="xp-co">Kindness.ai<span class="xp-type">Startup</span></div><div class="xp-role">Sr. Product Designer</div></div>
-        <div class="xp-row"><div class="xp-when">2020 — 2025</div><div class="xp-co">1Password<span class="xp-type">Enterprise</span></div><div class="xp-role">Sr. Product Designer</div></div>
-        <div class="xp-row"><div class="xp-when">2025</div><div class="xp-co">Helium<span class="xp-type">Scale-up</span></div><div class="xp-role">Lead Product Designer</div></div>
-        <div class="xp-row"><div class="xp-when">2019 — 2020</div><div class="xp-co">Ackerman McQueen<span class="xp-type">Agency</span></div><div class="xp-role">UI/UX Designer</div></div>
+        <div class="xp-row xp-now"><div class="xp-when">2026 — now</div><div class="xp-co">Kindness.ai</div><div class="xp-type">Startup</div><div class="xp-role">Sr. Product Designer</div></div>
+        <div class="xp-row"><div class="xp-when">2020 — 2025</div><div class="xp-co">1Password</div><div class="xp-type">Enterprise</div><div class="xp-role">Sr. Product Designer</div></div>
+        <div class="xp-row"><div class="xp-when">2025</div><div class="xp-co">Helium</div><div class="xp-type">Scale-up</div><div class="xp-role">Lead Product Designer</div></div>
+        <div class="xp-row"><div class="xp-when">2019 — 2020</div><div class="xp-co">Ackerman McQueen</div><div class="xp-type">Agency</div><div class="xp-role">UI/UX Designer</div></div>
       </div>
     </div>
 
