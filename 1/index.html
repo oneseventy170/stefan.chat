@@ -32,6 +32,10 @@
 html,body{margin:0;background:var(--bg);}body{transition:background .35s ease; cursor:crosshair;}
 a,button,[role="button"]{cursor:pointer;}
 @keyframes srblink{0%,48%{opacity:1}49%,100%{opacity:0}}
+/* Nav links (incl. the stefan.chat logo): muted by default, snap to full black/white + underline on hover. */
+#srnav a{transition:color .2s ease;}
+#srnav a:hover{color:#000 !important; text-decoration:underline !important; text-underline-offset:4px; text-decoration-thickness:1px;}
+:root[data-theme="dark"] #srnav a:hover{color:#fff !important;}
 .as-title{color:#fff;}
 :root[data-theme="dark"] .as-title{color:#000;}
 @keyframes ssoFloatA{0%,100%{transform:rotate(-8deg) translate(0,0)}50%{transform:rotate(-5deg) translate(6px,-10px)}}
@@ -64,7 +68,8 @@ a,button,[role="button"]{cursor:pointer;}
   div[style*="padding:48px; display:flex"]{padding:20px !important;}
   div[style*="padding:32px; display:flex"]{padding:16px !important;}
   div[style*="padding:36px 24px"]{flex-wrap:wrap !important; gap:8px 18px !important; justify-content:flex-start !important;}
-  a[style*="padding:36px 40px"]{flex-direction:column !important; align-items:flex-start !important; gap:14px !important;}
+  .next-link{flex-direction:column !important; align-items:flex-start !important; gap:14px !important; padding:28px 24px !important;}
+  .next-link > div:last-child{margin-left:0 !important;}
   .pcard .preveal{opacity:1 !important;}
   .pcard .ptag{opacity:1 !important; transform:none !important;}
 }
@@ -316,7 +321,7 @@ a,button,[role="button"]{cursor:pointer;}
 
   <!-- next -->
   <div style="max-width:1120px; margin:0 auto; padding:0 24px;">
-    <a href="/2/" style="display:flex; justify-content:space-between; align-items:center; text-decoration:none; color:inherit; border:1px solid var(--line); padding:36px 40px; margin:96px 0 0; background:var(--surface); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);">
+    <a href="/2/" class="next-link" style="display:flex; justify-content:space-between; align-items:center; text-decoration:none; color:inherit; border:1px solid var(--line); padding:36px 40px; margin:96px 0 0; background:var(--surface); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:8px 8px 0 var(--accent);">
       <div><div style="font:600 12px 'JetBrains Mono',monospace; color:var(--muted); letter-spacing:.06em; margin-bottom:10px;">NEXT CASE STUDY →</div><div style="font:700 30px/1.1 'Du Nord'; letter-spacing:-.02em;">Getting new users set up quickly &amp; confidently</div></div>
       <div style="font:600 14px 'Du Nord'; color:var(--accent); white-space:nowrap; margin-left:24px;">02 / 1Password</div>
     </a>
