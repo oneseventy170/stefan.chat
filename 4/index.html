@@ -39,12 +39,15 @@ a,button,[role="button"]{cursor:pointer;}
 .as-title{color:#fff;}
 :root[data-theme="dark"] .as-title{color:#000;}
 /* Front Desk crops: the card runs off the top edge of the box and floats above the bottom (Figma 162-10560 / 10569 / 10625) */
-.k-crop{border:1px solid var(--line); background:var(--media-bg); overflow:hidden; display:flex; justify-content:center; padding:0 16px;}
-.k-crop > div{width:min(720px, 100%);}
-/* margins are % of the 720-wide card: top bleed 474.55/720, bottom gap 47.55/720 → 320px box at full size */
-.k-crop img{display:block; width:100%; height:auto; margin-top:-65.91%; margin-bottom:6.6%;}
-/* sign-in variant: bleed 372.95/720, gap 34.95/720 → 409px box */
-.k-crop-tall img{margin-top:-51.8%; margin-bottom:4.85%;}
+.k-crop{border:1px solid var(--line); background:var(--media-bg); display:flex; justify-content:center; padding:0 16px;}
+/* The wrapper owns the geometry (720×318 → a 320px box with borders) so it never depends on the image having
+   loaded — iOS Safari gave the unloaded img zero height, which collapsed the old margin-based crop. */
+.k-crop > div{position:relative; width:min(720px, 100%); aspect-ratio:720 / 318; overflow:hidden;}
+/* Card anchored to the bottom with a 47.55/318 gap; its top bleeds off the box and is clipped */
+.k-crop img{position:absolute; left:0; bottom:14.95%; width:100%; height:auto; aspect-ratio:2160 / 2235; display:block;}
+/* sign-in variant: 409px box, 34.95/407 gap */
+.k-crop-tall > div{aspect-ratio:720 / 407;}
+.k-crop-tall img{bottom:8.59%;}
 /* Insights stat cards: five in a row at half size, wrapping on narrow screens */
 .k-stats{border:1px solid var(--line); background:var(--media-bg); padding:48px 32px; display:flex; flex-wrap:wrap; gap:16px; justify-content:center; align-items:center;}
 .k-stats img{width:160px; max-width:100%; height:auto; display:block;}
@@ -142,9 +145,9 @@ a,button,[role="button"]{cursor:pointer;}
 
       <h4 style="font:700 24px/1.2 'Du Nord'; margin:64px 0 16px;">Custom flows, surfaced as cards</h4>
       <p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-3); max-width:66ch; margin:0 0 24px;">The home page pairs a single input with cards for each flow a business has built. Flows ask for exactly what's needed, a wedding quote collects headcount and menu up front, and a second question opens in its own tab so nothing filled in is lost.</p>
-      <div class="k-crop" style="margin-bottom:20px;"><div><img loading="lazy" width="2160" height="2235" src="../assets/images/projects/kindness/7.png" alt="A wedding quote flow asking one question at a time"></div></div>
-      <div class="k-crop k-crop-tall" style="margin-bottom:20px;"><div><img loading="lazy" width="2160" height="2235" src="../assets/images/projects/kindness/8.png" alt="A second question opening in its own tab"></div></div>
-      <div class="k-crop"><div><img loading="lazy" width="2160" height="2235" src="../assets/images/projects/kindness/9.png" alt="Unfinished forms kept for the customer"></div></div>
+      <div class="k-crop" style="margin-bottom:20px;"><div><img width="2160" height="2235" src="../assets/images/projects/kindness/7.png" alt="A wedding quote flow asking one question at a time"></div></div>
+      <div class="k-crop k-crop-tall" style="margin-bottom:20px;"><div><img width="2160" height="2235" src="../assets/images/projects/kindness/8.png" alt="A second question opening in its own tab"></div></div>
+      <div class="k-crop"><div><img width="2160" height="2235" src="../assets/images/projects/kindness/9.png" alt="Unfinished forms kept for the customer"></div></div>
 
       <h4 style="font:700 24px/1.2 'Du Nord'; margin:64px 0 16px;">One inbox for every request, built for handoff</h4>
       <p style="font:400 16px/1.7 'Du Nord'; color:var(--ink-3); max-width:66ch; margin:0 0 24px;">Kindness has its own email client rather than a plugin for someone else's. A business links its Gmail at signup, so every request lands in one queue. Each thread opens with a generated summary, and agents comment, assign, and pass context without leaving it. Message types are colour coded, and every row carries a generated title and tags for type and effort.</p>
